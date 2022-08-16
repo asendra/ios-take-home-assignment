@@ -1,5 +1,5 @@
 //
-//  SearchArtistCoordinator.swift
+//  AlbumCoordinator.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 16/8/22.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationControllerDelegate {
+class AlbumCoordinator: BaseCoordinator {
     
     var parentCoordinator: BaseCoordinator?
     var childCoordinators = [BaseCoordinator]()
@@ -19,15 +19,8 @@ class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationController
     }
 
     func start() {
-        let controller = SearchArtistController()
+        let controller = AlbumController()
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
-    }
-    
-    func showArtist() {
-        let child = ArtistCoordinator(rootController: navigationController)
-        childCoordinators.append(child)
-        child.parentCoordinator = self
-        child.start()
     }
 }

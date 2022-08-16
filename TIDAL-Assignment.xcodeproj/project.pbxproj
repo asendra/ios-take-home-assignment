@@ -20,6 +20,9 @@
 		4E966C7028AB6AD0006BC9A1 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C6F28AB6AD0006BC9A1 /* BaseCoordinator.swift */; };
 		4E966C7228AB6F40006BC9A1 /* ArtistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7128AB6F40006BC9A1 /* ArtistController.swift */; };
 		4E966C7428AB6F52006BC9A1 /* ArtistCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7328AB6F52006BC9A1 /* ArtistCoordinator.swift */; };
+		4E966C7628AB7567006BC9A1 /* AlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7528AB7567006BC9A1 /* AlbumController.swift */; };
+		4E966C7828AB7572006BC9A1 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7728AB7572006BC9A1 /* AlbumCoordinator.swift */; };
+		4E966C7C28ABA11C006BC9A1 /* Coordinated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		4E966C6F28AB6AD0006BC9A1 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		4E966C7128AB6F40006BC9A1 /* ArtistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistController.swift; sourceTree = "<group>"; };
 		4E966C7328AB6F52006BC9A1 /* ArtistCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCoordinator.swift; sourceTree = "<group>"; };
+		4E966C7528AB7567006BC9A1 /* AlbumController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumController.swift; sourceTree = "<group>"; };
+		4E966C7728AB7572006BC9A1 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
+		4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinated.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +173,8 @@
 		4E966C6928AB6976006BC9A1 /* AlbumFeature */ = {
 			isa = PBXGroup;
 			children = (
+				4E966C7528AB7567006BC9A1 /* AlbumController.swift */,
+				4E966C7728AB7572006BC9A1 /* AlbumCoordinator.swift */,
 			);
 			path = AlbumFeature;
 			sourceTree = "<group>";
@@ -175,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				4E966C6F28AB6AD0006BC9A1 /* BaseCoordinator.swift */,
+				4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -310,12 +319,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E966C3B28AB67C9006BC9A1 /* SearchArtistController.swift in Sources */,
+				4E966C7628AB7567006BC9A1 /* AlbumController.swift in Sources */,
+				4E966C7C28ABA11C006BC9A1 /* Coordinated.swift in Sources */,
 				4E966C7028AB6AD0006BC9A1 /* BaseCoordinator.swift in Sources */,
 				4E966C6C28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift in Sources */,
 				4E966C7228AB6F40006BC9A1 /* ArtistController.swift in Sources */,
 				4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */,
 				4E966C7428AB6F52006BC9A1 /* ArtistCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
+				4E966C7828AB7572006BC9A1 /* AlbumCoordinator.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

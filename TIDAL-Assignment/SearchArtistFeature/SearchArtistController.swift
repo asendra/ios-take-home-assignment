@@ -7,8 +7,12 @@
 
 import UIKit
 
-class SearchArtistController: UITableViewController {
-
+class SearchArtistController: UITableViewController, Coordinated {
+    
+    var coordinating: BaseCoordinator? {
+        return coordinator
+    }
+    
     weak var coordinator: SearchArtistCoordinator?
     
     override func viewDidLoad() {

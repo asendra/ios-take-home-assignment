@@ -10,6 +10,7 @@ import UIKit
 
 class ArtistCoordinator: BaseCoordinator {
     
+    var parentCoordinator: BaseCoordinator?
     var childCoordinators = [BaseCoordinator]()
     var navigationController: UINavigationController
     
@@ -21,5 +22,12 @@ class ArtistCoordinator: BaseCoordinator {
         let controller = ArtistController()
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
+    }
+    
+    func showAlbum() {
+        let child = AlbumCoordinator(rootController: navigationController)
+        childCoordinators.append(child)
+        child.parentCoordinator = self
+        child.start()
     }
 }
