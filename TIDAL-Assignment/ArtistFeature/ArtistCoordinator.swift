@@ -10,7 +10,6 @@ import UIKit
 
 class ArtistCoordinator: BaseCoordinator {
     
-    weak var parentCoordinator: SearchArtistCoordinator?
     var childCoordinators = [BaseCoordinator]()
     var navigationController: UINavigationController
     
