@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C3628AB67C9006BC9A1 /* AppDelegate.swift */; };
 		4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C3828AB67C9006BC9A1 /* SceneDelegate.swift */; };
-		4E966C3B28AB67C9006BC9A1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C3A28AB67C9006BC9A1 /* ViewController.swift */; };
-		4E966C3E28AB67C9006BC9A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E966C3C28AB67C9006BC9A1 /* Main.storyboard */; };
+		4E966C3B28AB67C9006BC9A1 /* SearchArtistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C3A28AB67C9006BC9A1 /* SearchArtistController.swift */; };
 		4E966C4028AB67CB006BC9A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E966C3F28AB67CB006BC9A1 /* Assets.xcassets */; };
 		4E966C4328AB67CB006BC9A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E966C4128AB67CB006BC9A1 /* LaunchScreen.storyboard */; };
 		4E966C4E28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C4D28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift */; };
@@ -39,8 +38,7 @@
 		4E966C3328AB67C9006BC9A1 /* TIDAL-Assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TIDAL-Assignment.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E966C3628AB67C9006BC9A1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E966C3828AB67C9006BC9A1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4E966C3A28AB67C9006BC9A1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4E966C3D28AB67C9006BC9A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4E966C3A28AB67C9006BC9A1 /* SearchArtistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArtistController.swift; sourceTree = "<group>"; };
 		4E966C3F28AB67CB006BC9A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4E966C4228AB67CB006BC9A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4E966C4428AB67CB006BC9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -99,10 +97,12 @@
 		4E966C3528AB67C9006BC9A1 /* TIDAL-Assignment */ = {
 			isa = PBXGroup;
 			children = (
+				4E966C6628AB694E006BC9A1 /* Core */,
+				4E966C6728AB6959006BC9A1 /* SearchArtistFeature */,
+				4E966C6828AB696E006BC9A1 /* ArtistFeature */,
+				4E966C6928AB6976006BC9A1 /* AlbumFeature */,
 				4E966C3628AB67C9006BC9A1 /* AppDelegate.swift */,
 				4E966C3828AB67C9006BC9A1 /* SceneDelegate.swift */,
-				4E966C3A28AB67C9006BC9A1 /* ViewController.swift */,
-				4E966C3C28AB67C9006BC9A1 /* Main.storyboard */,
 				4E966C3F28AB67CB006BC9A1 /* Assets.xcassets */,
 				4E966C4128AB67CB006BC9A1 /* LaunchScreen.storyboard */,
 				4E966C4428AB67CB006BC9A1 /* Info.plist */,
@@ -125,6 +125,35 @@
 				4E966C5928AB67CB006BC9A1 /* TIDAL_AssignmentUITestsLaunchTests.swift */,
 			);
 			path = "TIDAL-AssignmentUITests";
+			sourceTree = "<group>";
+		};
+		4E966C6628AB694E006BC9A1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		4E966C6728AB6959006BC9A1 /* SearchArtistFeature */ = {
+			isa = PBXGroup;
+			children = (
+				4E966C3A28AB67C9006BC9A1 /* SearchArtistController.swift */,
+			);
+			path = SearchArtistFeature;
+			sourceTree = "<group>";
+		};
+		4E966C6828AB696E006BC9A1 /* ArtistFeature */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ArtistFeature;
+			sourceTree = "<group>";
+		};
+		4E966C6928AB6976006BC9A1 /* AlbumFeature */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AlbumFeature;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +262,6 @@
 			files = (
 				4E966C4328AB67CB006BC9A1 /* LaunchScreen.storyboard in Resources */,
 				4E966C4028AB67CB006BC9A1 /* Assets.xcassets in Resources */,
-				4E966C3E28AB67C9006BC9A1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E966C3B28AB67C9006BC9A1 /* ViewController.swift in Sources */,
+				4E966C3B28AB67C9006BC9A1 /* SearchArtistController.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
 			);
@@ -297,14 +325,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4E966C3C28AB67C9006BC9A1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4E966C3D28AB67C9006BC9A1 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4E966C4128AB67CB006BC9A1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -442,7 +462,6 @@
 				INFOPLIST_FILE = "TIDAL-Assignment/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -470,7 +489,6 @@
 				INFOPLIST_FILE = "TIDAL-Assignment/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
