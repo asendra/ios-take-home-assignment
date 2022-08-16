@@ -9,6 +9,8 @@ import UIKit
 
 class SearchArtistController: UITableViewController {
 
+    weak var coordinator: SearchArtistCoordinator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Search"

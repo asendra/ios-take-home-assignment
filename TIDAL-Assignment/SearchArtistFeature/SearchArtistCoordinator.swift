@@ -6,3 +6,21 @@
 //
 
 import Foundation
+import UIKit
+
+class SearchArtistCoordinator: BaseCoordinator {
+    
+    weak var parentCoordinator: AppCoordinator?
+    var childCoordinators = [BaseCoordinator]()
+    var navigationController: UINavigationController
+    
+    init(rootController: UINavigationController) {
+        self.navigationController = rootController
+    }
+
+    func start() {
+        let controller = SearchArtistController()
+        controller.coordinator = self
+        navigationController.pushViewController(controller, animated: true)
+    }
+}

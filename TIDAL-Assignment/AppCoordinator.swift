@@ -16,14 +16,19 @@ class AppCoordinator: BaseCoordinator {
     
     init(window: UIWindow?) {
         self.window = window
-        navigationController = UINavigationController(rootViewController: SearchArtistController())
+        navigationController = UINavigationController()
     }
 
     func start() {
         guard let window = window else {
             return
         }
-    
+        
+        let child = SearchArtistCoordinator(rootController: navigationController)
+        childCoordinators.append(child)
+        child.parentCoordinator = self
+        child.start()
+        
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
