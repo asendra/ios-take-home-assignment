@@ -18,6 +18,8 @@
 		4E966C6C28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C6B28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift */; };
 		4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C6D28AB6ABF006BC9A1 /* AppCoordinator.swift */; };
 		4E966C7028AB6AD0006BC9A1 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C6F28AB6AD0006BC9A1 /* BaseCoordinator.swift */; };
+		4E966C7228AB6F40006BC9A1 /* ArtistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7128AB6F40006BC9A1 /* ArtistController.swift */; };
+		4E966C7428AB6F52006BC9A1 /* ArtistCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7328AB6F52006BC9A1 /* ArtistCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		4E966C6B28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArtistCoordinator.swift; sourceTree = "<group>"; };
 		4E966C6D28AB6ABF006BC9A1 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		4E966C6F28AB6AD0006BC9A1 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
+		4E966C7128AB6F40006BC9A1 /* ArtistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistController.swift; sourceTree = "<group>"; };
+		4E966C7328AB6F52006BC9A1 /* ArtistCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 		4E966C6828AB696E006BC9A1 /* ArtistFeature */ = {
 			isa = PBXGroup;
 			children = (
+				4E966C7128AB6F40006BC9A1 /* ArtistController.swift */,
+				4E966C7328AB6F52006BC9A1 /* ArtistCoordinator.swift */,
 			);
 			path = ArtistFeature;
 			sourceTree = "<group>";
@@ -306,7 +312,9 @@
 				4E966C3B28AB67C9006BC9A1 /* SearchArtistController.swift in Sources */,
 				4E966C7028AB6AD0006BC9A1 /* BaseCoordinator.swift in Sources */,
 				4E966C6C28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift in Sources */,
+				4E966C7228AB6F40006BC9A1 /* ArtistController.swift in Sources */,
 				4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */,
+				4E966C7428AB6F52006BC9A1 /* ArtistCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
 			);

@@ -14,7 +14,11 @@ class SearchArtistController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Search"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Artist", style: .plain, target: self, action: #selector(showArtist(_:)))
     }
 
+    @objc private func showArtist(_ sender: UIBarButtonItem) {
+        coordinator?.showArtist()
+    }
 }
 
