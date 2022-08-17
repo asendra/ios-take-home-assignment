@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ArtistResponse: Decodable {
+struct SearchArtistResponse: Decodable {
     let total: Int
     let data: [Artist]
 }

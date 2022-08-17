@@ -28,7 +28,7 @@ class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationController
     }
     
     func showArtist(_ artist: Artist) {
-        let child = ArtistCoordinator(rootController: navigationController, client: apiClient, artist: artist)
+        let child = AlbumListCoordinator(rootController: navigationController, client: apiClient, artist: artist)
         childCoordinators.append(child)
         child.parentCoordinator = self
         child.start()

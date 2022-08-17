@@ -1,5 +1,5 @@
 //
-//  SearchArtistApiService.swift
+//  AlbumListApiService.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 17/8/22.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol SearchArtistService {
-    func getArtists(withText text: String, offset: Int?, completion: @escaping (Result<[Artist], Error>) -> Void)
+protocol AlbumListService {
+    func getAlbums(forArtist artist: Artist, offset: Int?, completion: @escaping (Result<[Album], Error>) -> Void)
 }
 
-final class SearchArtistApiService {
+final class AlbumListApiService {
     
     let apiClient: ApiClient
 
@@ -23,15 +23,15 @@ final class SearchArtistApiService {
 
 // MARK: - API
 
-extension SearchArtistApiService: SearchArtistService {
-    func getArtists(withText text: String, offset: Int?, completion: @escaping (Result<[Artist], Error>) -> Void) {
+extension AlbumListApiService: AlbumListService {
+    func getAlbums(forArtist artist: Artist, offset: Int?, completion: @escaping (Result<[Album], Error>) -> Void){
         
-        var path = "search/artist?q=\(text)"
+        var path = "artist/\(artist.id)/albums"
         if let index = offset {
             path += "&index=\(index)"
         }
         
-        let resource = Resource<SearchArtistResponse>(get: path)
+        let resource = Resource<AlbumListResponse>(get: path)
         apiClient.load(resource: resource) { result in
             if let result = result {
                 completion(.success(result.data))
