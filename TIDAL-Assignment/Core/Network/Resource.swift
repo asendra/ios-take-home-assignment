@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Resource<A> {
     let path: String
@@ -17,6 +18,15 @@ extension Resource where A: Decodable {
         self.path = path
         self.parse = { data in
             try? JSONDecoder().decode(A.self, from: data)
+        }
+    }
+}
+
+extension Resource where A: UIImage {
+    init(get path: String) {
+        self.path = path
+        self.parse = { data in
+            UIImage(data: data) as? A
         }
     }
 }

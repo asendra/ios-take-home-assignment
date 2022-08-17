@@ -22,7 +22,8 @@ class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationController
     }
 
     func start() {
-        let controller = SearchArtistController(service: SearchArtistApiService(client: apiClient))
+        let viewModel = SearchArtistViewModel(service: SearchArtistApiService(client: apiClient))
+        let controller = SearchArtistController(viewModel: viewModel)
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
     }

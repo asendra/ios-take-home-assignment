@@ -7,16 +7,52 @@
 
 import UIKit
 
-class SearchArtistController: UITableViewController {
+enum ViewControllerState {
+    case content
+    case loading
+    case error(message: String)
+    case empty
+}
+
+class SearchArtistController: UIViewController {
     
     weak var coordinator: SearchArtistCoordinator?
     
-    let searchService: SearchArtistApiService
-    var artists = [Artist]() {
+    var viewModel: SearchArtistViewModelType
+    
+    var state = ViewControllerState.empty {
         didSet {
-            tableView.reloadData()
+            print("Updated state = \(state)")
+            switch(state) {
+            case .loading:
+                tableView.isHidden = true
+                messageView.isHidden = true
+            case .error(let message):
+                tableView.isHidden = true
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
+                messageView.messageLabel.text = message
+            case .content:
+                tableView.isHidden = false
+                messageView.isHidden = true
+            case .empty:
+                tableView.isHidden = true
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
+                messageView.messageLabel.text = "Search for your favourite artists"
+            }
         }
     }
+    
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .clear
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 52
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ArtistCell.self, forCellReuseIdentifier: ArtistCell.reuseIdentifier)
+        return tableView
+    }()
     
     let searchController: UISearchController = {
         let controller = UISearchController()
@@ -27,30 +63,31 @@ class SearchArtistController: UITableViewController {
         return controller
     }()
     
+    let messageView: TableMessageView = {
+        let view = TableMessageView(frame: .zero)
+        view.backgroundColor = .clear
+        view.layer.cornerCurve = .continuous
+        view.layer.cornerRadius = 12.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
-        setUpSearchController()
-        setUpTableView()
+        setupUI()
+        setupSearchController()
+        setupTableView()
+        setupViewModel()
         
-        searchService.getArtists(withText: "Prince", offset: nil) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let artists):
-                    self?.artists = artists
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
+        viewModel.start()
     }
 
     // MARK: - Init
     
-    init(service: SearchArtistApiService) {
-        searchService = service
-        super.init(style: .plain)
+    init(viewModel: SearchArtistViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -59,55 +96,106 @@ class SearchArtistController: UITableViewController {
     
     // MARK: - Private
     
-    private func setUpUI() {
+    private func setupUI() {
         title = "Artists"
         view.backgroundColor = .tidalDarkBackground
+        
+        view.addSubview(messageView)
+        NSLayoutConstraint.activate([
+            messageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            messageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
     
-    private func setUpSearchController() {
+    private func setupSearchController() {
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
     }
     
-    private func setUpTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    private func setupTableView() {
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.prefetchDataSource = self
     }
     
-    // MARK: - UITableViewDataSource
+    private func setupViewModel() {
+        viewModel.viewDelegate = self
+    }
+}
+
+extension SearchArtistController: UITableViewDataSource, UITableViewDelegate {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return artists.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfArtists()
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = .clear
-        cell.textLabel?.textColor = .white
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let artist = artists[indexPath.row]
-        cell.textLabel?.text = artist.name
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ArtistCell.reuseIdentifier, for: indexPath) as? ArtistCell else {
+            return UITableViewCell()
+        }
+        
+        if viewModel.isLoading(for: indexPath) {
+            // TODO: Decide how to handle..
+        } else {
+            let artistData = viewModel.artistDataFor(row: indexPath.row)
+            artistData.setup(cell, in: tableView, at: indexPath)
+        }
         
         return cell
     }
     
-    // MARK: - UITableViewDelegate
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let artist = artists[indexPath.row]
+        let artist = viewModel.artistFor(row: indexPath.row)
         coordinator?.showArtist(artist)
+    }
+}
+
+extension SearchArtistController: SearchArtistViewModelViewDelegate {
+    func updateArtists(for indexPaths: [IndexPath]?) {
+        DispatchQueue.main.async { [weak self] in
+            if let paths = indexPaths {
+                self?.tableView.reloadRows(at: paths, with: .automatic)
+            }
+            else {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+
+    func updateState(_ state: ViewControllerState) {
+        DispatchQueue.main.async { [weak self] in
+            self?.state = state
+        }
+    }
+}
+
+extension SearchArtistController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: viewModel.isLoading(for:)) {
+            viewModel.fetchMoreArtists()
+        }
     }
 }
 
 extension SearchArtistController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        print("Search term: " + text)
+        viewModel.searchFor(text: text)
     }
 }
 
