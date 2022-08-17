@@ -16,9 +16,12 @@ class AppCoordinator: NSObject, BaseCoordinator, UINavigationControllerDelegate 
     
     var window: UIWindow?
     
-    init(window: UIWindow?) {
+    let apiClient: ApiClient
+    
+    init(window: UIWindow?, client: ApiClient = ApiClient()) {
         self.window = window
         navigationController = UINavigationController()
+        apiClient = client
         super.init()
     }
 

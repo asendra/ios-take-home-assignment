@@ -1,5 +1,5 @@
 //
-//  SearchArtistCoordinator.swift
+//  AlbumListCoordinator.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 16/8/22.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationControllerDelegate {
+class AlbumListCoordinator: BaseCoordinator {
     
     var parentCoordinator: BaseCoordinator?
     var childCoordinators = [BaseCoordinator]()
@@ -16,19 +16,22 @@ class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationController
     
     let apiClient: ApiClient
     
-    init(rootController: UINavigationController, client: ApiClient = ApiClient()) {
+    let artist: Artist
+    
+    init(rootController: UINavigationController, client: ApiClient = ApiClient(), artist: Artist) {
         navigationController = rootController
         apiClient = client
+        self.artist = artist
     }
 
     func start() {
-        let controller = SearchArtistController(service: SearchArtistApiService(client: apiClient))
+        let controller = AlbumListController(artist: artist, service: AlbumListApiService(client: apiClient))
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
     }
     
-    func showArtist(_ artist: Artist) {
-        let child = AlbumListCoordinator(rootController: navigationController, client: apiClient, artist: artist)
+    func showAlbum(_ album: Album) {
+        let child = AlbumInfoCoordinator(rootController: navigationController, client: apiClient, album: album)
         childCoordinators.append(child)
         child.parentCoordinator = self
         child.start()

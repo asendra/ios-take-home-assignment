@@ -1,0 +1,26 @@
+//
+//  ApiClient.swift
+//  TIDAL-Assignment
+//
+//  Created by Alberto Sendra Estrella on 17/8/22.
+//
+
+import Foundation
+
+final class ApiClient {
+    
+    let session: URLSession
+    let baseURL = "https://api.deezer.com/"
+    
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
+    
+    func load<A>(resource: Resource<A>, completion: @escaping  (A?) -> ()) {
+        let url = URL(string: baseURL + resource.path)!
+        let urlRequest = URLRequest(url: url)
+        session.dataTask(with: urlRequest) { data, _, _ in
+            completion(data.flatMap(resource.parse))
+        }.resume()
+    }
+}

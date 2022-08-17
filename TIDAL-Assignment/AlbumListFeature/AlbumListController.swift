@@ -1,55 +1,50 @@
 //
-//  SearchArtistController.swift
+//  AlbumListController.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 16/8/22.
 //
 
+import Foundation
 import UIKit
 
-class SearchArtistController: UITableViewController {
+class AlbumListController: UITableViewController {
     
-    weak var coordinator: SearchArtistCoordinator?
+    weak var coordinator: AlbumListCoordinator?
     
-    let searchService: SearchArtistApiService
-    var artists = [Artist]() {
+    let artist: Artist
+    
+    let albumListService: AlbumListApiService
+    
+    var albums = [Album]() {
         didSet {
             tableView.reloadData()
         }
     }
     
-    let searchController: UISearchController = {
-        let controller = UISearchController()
-        controller.obscuresBackgroundDuringPresentation = false
-        controller.showsSearchResultsController = false
-        controller.searchBar.placeholder = "Search artist by name"
-        controller.searchBar.barStyle = .black
-        return controller
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpUI()
-        setUpSearchController()
         setUpTableView()
         
-        searchService.getArtists(withText: "Prince", offset: nil) { [weak self] result in
+        albumListService.getAlbums(forArtist: artist, offset: nil) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let artists):
-                    self?.artists = artists
+                case .success(let albums):
+                    self?.albums = albums
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
         }
     }
-
+    
     // MARK: - Init
     
-    init(service: SearchArtistApiService) {
-        searchService = service
+    init(artist: Artist, service: AlbumListApiService) {
+        self.artist = artist
+        self.albumListService = service
         super.init(style: .plain)
     }
     
@@ -60,14 +55,8 @@ class SearchArtistController: UITableViewController {
     // MARK: - Private
     
     private func setUpUI() {
-        title = "Artists"
+        title = artist.name
         view.backgroundColor = .tidalDarkBackground
-    }
-    
-    private func setUpSearchController() {
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
     }
     
     private func setUpTableView() {
@@ -81,7 +70,7 @@ class SearchArtistController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return artists.count
+        return albums.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,8 +78,8 @@ class SearchArtistController: UITableViewController {
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         
-        let artist = artists[indexPath.row]
-        cell.textLabel?.text = artist.name
+        let album = albums[indexPath.row]
+        cell.textLabel?.text = album.title
         
         return cell
     }
@@ -99,19 +88,12 @@ class SearchArtistController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let artist = artists[indexPath.row]
-        coordinator?.showArtist(artist)
+        let album = albums[indexPath.row]
+        coordinator?.showAlbum(album)
     }
 }
 
-extension SearchArtistController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        print("Search term: " + text)
-    }
-}
-
-extension SearchArtistController: Coordinated {
+extension AlbumListController: Coordinated {
     var coordinating: BaseCoordinator? {
         return coordinator
     }

@@ -1,55 +1,62 @@
 //
-//  SearchArtistController.swift
+//  AlbumController.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 16/8/22.
 //
 
+import Foundation
 import UIKit
 
-class SearchArtistController: UITableViewController {
+class AlbumInfoController: UITableViewController {
     
-    weak var coordinator: SearchArtistCoordinator?
+    weak var coordinator: AlbumInfoCoordinator?
     
-    let searchService: SearchArtistApiService
-    var artists = [Artist]() {
+    let album: Album
+    
+    let infoService: AlbumInfoApiService
+    
+    var info: AlbumInfoResponse?
+    var tracks = [Track]() {
         didSet {
             tableView.reloadData()
         }
     }
     
-    let searchController: UISearchController = {
-        let controller = UISearchController()
-        controller.obscuresBackgroundDuringPresentation = false
-        controller.showsSearchResultsController = false
-        controller.searchBar.placeholder = "Search artist by name"
-        controller.searchBar.barStyle = .black
-        return controller
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpUI()
-        setUpSearchController()
         setUpTableView()
         
-        searchService.getArtists(withText: "Prince", offset: nil) { [weak self] result in
+        infoService.getAlbumInfo(album) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let artists):
-                    self?.artists = artists
+                case .success(let info):
+                    self?.info = info
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        infoService.getTracks(forAlbum: album) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let tracks):
+                    self?.tracks = tracks
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
         }
     }
-
+    
     // MARK: - Init
     
-    init(service: SearchArtistApiService) {
-        searchService = service
+    init(album: Album, service: AlbumInfoApiService) {
+        self.infoService = service
+        self.album = album
         super.init(style: .plain)
     }
     
@@ -60,14 +67,8 @@ class SearchArtistController: UITableViewController {
     // MARK: - Private
     
     private func setUpUI() {
-        title = "Artists"
+        title = album.title
         view.backgroundColor = .tidalDarkBackground
-    }
-    
-    private func setUpSearchController() {
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
     }
     
     private func setUpTableView() {
@@ -81,7 +82,7 @@ class SearchArtistController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return artists.count
+        return tracks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,8 +90,9 @@ class SearchArtistController: UITableViewController {
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         
-        let artist = artists[indexPath.row]
-        cell.textLabel?.text = artist.name
+        let track = tracks[indexPath.row]
+        cell.textLabel?.text = track.title
+        cell.detailTextLabel?.text = String(track.duration)
         
         return cell
     }
@@ -99,19 +101,10 @@ class SearchArtistController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let artist = artists[indexPath.row]
-        coordinator?.showArtist(artist)
     }
 }
 
-extension SearchArtistController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        print("Search term: " + text)
-    }
-}
-
-extension SearchArtistController: Coordinated {
+extension AlbumInfoController: Coordinated {
     var coordinating: BaseCoordinator? {
         return coordinator
     }
