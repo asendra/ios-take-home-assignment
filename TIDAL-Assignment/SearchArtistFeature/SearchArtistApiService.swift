@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SearchArtistService {
-    func getArtists(withText text: String, offset: Int?, completion: @escaping (Result<[Artist], Error>) -> Void)
+    func getArtists(withText text: String, offset: Int?, completion: @escaping (Result<SearchArtistResponse, Error>) -> Void)
 }
 
 final class SearchArtistApiService {
@@ -24,7 +24,7 @@ final class SearchArtistApiService {
 // MARK: - API
 
 extension SearchArtistApiService: SearchArtistService {
-    func getArtists(withText text: String, offset: Int?, completion: @escaping (Result<[Artist], Error>) -> Void) {
+    func getArtists(withText text: String, offset: Int?, completion: @escaping (Result<SearchArtistResponse, Error>) -> Void) {
         
         var path = "search/artist?q=\(text)"
         if let index = offset {
@@ -34,7 +34,7 @@ extension SearchArtistApiService: SearchArtistService {
         let resource = Resource<SearchArtistResponse>(get: path)
         apiClient.load(resource: resource) { result in
             if let result = result {
-                completion(.success(result.data))
+                completion(.success(result))
             }
             else {
                 completion(.failure(APIError.invalidJSONResponse))

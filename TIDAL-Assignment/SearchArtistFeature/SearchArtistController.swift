@@ -20,6 +20,13 @@ class SearchArtistController: UITableViewController {
     
     var viewModel: SearchArtistViewModelType
     
+    var state = ViewControllerState.empty {
+        didSet {
+            print("Updated state = \(state)")
+            tableView.reloadData()
+        }
+    }
+    
     let searchController: UISearchController = {
         let controller = UISearchController()
         controller.obscuresBackgroundDuringPresentation = false
@@ -32,11 +39,11 @@ class SearchArtistController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
-        setUpSearchController()
-        setUpTableView()
+        setupUI()
+        setupSearchController()
+        setupTableView()
+        setupViewModel()
         
-        viewModel.viewDelegate = self
         viewModel.start()
     }
 
@@ -53,19 +60,24 @@ class SearchArtistController: UITableViewController {
     
     // MARK: - Private
     
-    private func setUpUI() {
+    private func setupUI() {
         title = "Artists"
         view.backgroundColor = .tidalDarkBackground
     }
     
-    private func setUpSearchController() {
+    private func setupSearchController() {
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
     }
     
-    private func setUpTableView() {
+    private func setupTableView() {
+        tableView.prefetchDataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    }
+    
+    private func setupViewModel() {
+        viewModel.viewDelegate = self
     }
     
     // MARK: - UITableViewDataSource
@@ -75,7 +87,7 @@ class SearchArtistController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        return viewModel.numberOfArtists()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -83,8 +95,12 @@ class SearchArtistController: UITableViewController {
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         
-        let artist = viewModel.itemFor(row: indexPath.row)
-        cell.textLabel?.text = artist.name
+        if viewModel.isLoading(for: indexPath) {
+            cell.textLabel?.text = "Loading...."
+        } else {
+            let artist = viewModel.artistFor(row: indexPath.row)
+            cell.textLabel?.text = artist.name
+        }
         
         return cell
     }
@@ -93,18 +109,35 @@ class SearchArtistController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let artist = viewModel.itemFor(row: indexPath.row)
+        let artist = viewModel.artistFor(row: indexPath.row)
         coordinator?.showArtist(artist)
     }
 }
 
 extension SearchArtistController: SearchArtistViewModelViewDelegate {
-    func updateScreen() {
-        tableView.reloadData()
+    func updateArtists(for indexPaths: [IndexPath]?) {
+        DispatchQueue.main.async { [weak self] in
+            if let paths = indexPaths {
+                self?.tableView.reloadRows(at: paths, with: .automatic)
+            }
+            else {
+                self?.tableView.reloadData()
+            }
+        }
     }
 
     func updateState(_ state: ViewControllerState) {
-        //self.state = state
+        DispatchQueue.main.async { [weak self] in
+            self?.state = state
+        }
+    }
+}
+
+extension SearchArtistController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: viewModel.isLoading(for:)) {
+            viewModel.fetchMoreArtists()
+        }
     }
 }
 
