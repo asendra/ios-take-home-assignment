@@ -34,6 +34,7 @@
 		4EBF493C28AD3299000D01B0 /* AlbumListApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493B28AD3299000D01B0 /* AlbumListApiService.swift */; };
 		4EBF493E28AD3B38000D01B0 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493D28AD3B38000D01B0 /* Track.swift */; };
 		4EBF494028AD3E55000D01B0 /* AlbumInfoApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493F28AD3E55000D01B0 /* AlbumInfoApiService.swift */; };
+		4EBF494228AD4B23000D01B0 /* SearchArtistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494128AD4B23000D01B0 /* SearchArtistViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		4EBF493B28AD3299000D01B0 /* AlbumListApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListApiService.swift; sourceTree = "<group>"; };
 		4EBF493D28AD3B38000D01B0 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		4EBF493F28AD3E55000D01B0 /* AlbumInfoApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumInfoApiService.swift; sourceTree = "<group>"; };
+		4EBF494128AD4B23000D01B0 /* SearchArtistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArtistViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				4E966C3A28AB67C9006BC9A1 /* SearchArtistController.swift */,
 				4E966C6B28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift */,
 				4EBF493128AD0953000D01B0 /* SearchArtistApiService.swift */,
+				4EBF494128AD4B23000D01B0 /* SearchArtistViewModel.swift */,
 			);
 			path = SearchArtistFeature;
 			sourceTree = "<group>";
@@ -391,6 +394,7 @@
 				4EBF493E28AD3B38000D01B0 /* Track.swift in Sources */,
 				4EBF492F28AD0865000D01B0 /* Artist.swift in Sources */,
 				4E966C7828AB7572006BC9A1 /* AlbumInfoCoordinator.swift in Sources */,
+				4EBF494228AD4B23000D01B0 /* SearchArtistViewModel.swift in Sources */,
 				4EBF493228AD0953000D01B0 /* SearchArtistApiService.swift in Sources */,
 				4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */,
 				4EBF493628AD1CB0000D01B0 /* ApiError.swift in Sources */,

@@ -7,16 +7,18 @@
 
 import UIKit
 
+enum ViewControllerState {
+    case content
+    case loading
+    case error
+    case empty
+}
+
 class SearchArtistController: UITableViewController {
     
     weak var coordinator: SearchArtistCoordinator?
     
-    let searchService: SearchArtistApiService
-    var artists = [Artist]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var viewModel: SearchArtistViewModelType
     
     let searchController: UISearchController = {
         let controller = UISearchController()
@@ -34,22 +36,14 @@ class SearchArtistController: UITableViewController {
         setUpSearchController()
         setUpTableView()
         
-        searchService.getArtists(withText: "Prince", offset: nil) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let artists):
-                    self?.artists = artists
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
+        viewModel.viewDelegate = self
+        viewModel.start()
     }
 
     // MARK: - Init
     
-    init(service: SearchArtistApiService) {
-        searchService = service
+    init(viewModel: SearchArtistViewModelType) {
+        self.viewModel = viewModel
         super.init(style: .plain)
     }
     
@@ -81,7 +75,7 @@ class SearchArtistController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return artists.count
+        return viewModel.numberOfItems()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,7 +83,7 @@ class SearchArtistController: UITableViewController {
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         
-        let artist = artists[indexPath.row]
+        let artist = viewModel.itemFor(row: indexPath.row)
         cell.textLabel?.text = artist.name
         
         return cell
@@ -99,15 +93,25 @@ class SearchArtistController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let artist = artists[indexPath.row]
+        let artist = viewModel.itemFor(row: indexPath.row)
         coordinator?.showArtist(artist)
+    }
+}
+
+extension SearchArtistController: SearchArtistViewModelViewDelegate {
+    func updateScreen() {
+        tableView.reloadData()
+    }
+
+    func updateState(_ state: ViewControllerState) {
+        //self.state = state
     }
 }
 
 extension SearchArtistController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        print("Search term: " + text)
+        viewModel.searchFor(text: text)
     }
 }
 
