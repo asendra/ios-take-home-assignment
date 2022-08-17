@@ -81,8 +81,8 @@ class SearchArtistViewModel {
                 self?.artists = response.data
                 self?.viewDelegate?.updateState(.content)
                 self?.viewDelegate?.updateArtists(for: nil)
-            case .failure(_):
-                self?.viewDelegate?.updateState(.error)
+            case .failure(let error):
+                self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
             }
         }
     }
@@ -147,8 +147,8 @@ extension SearchArtistViewModel: SearchArtistViewModelType {
                 self?.offset += response.data.count
                 self?.artists += response.data
                 self?.viewDelegate?.updateArtists(for: updatedPaths)
-            case .failure(_):
-                self?.viewDelegate?.updateState(.error)
+            case .failure(let error):
+                self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
             }
         }
     }

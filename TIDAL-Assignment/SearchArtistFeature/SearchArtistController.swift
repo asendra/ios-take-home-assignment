@@ -10,11 +10,11 @@ import UIKit
 enum ViewControllerState {
     case content
     case loading
-    case error
+    case error(message: String)
     case empty
 }
 
-class SearchArtistController: UITableViewController {
+class SearchArtistController: UIViewController {
     
     weak var coordinator: SearchArtistCoordinator?
     
@@ -23,9 +23,36 @@ class SearchArtistController: UITableViewController {
     var state = ViewControllerState.empty {
         didSet {
             print("Updated state = \(state)")
-            tableView.reloadData()
+            switch(state) {
+            case .loading:
+                tableView.isHidden = true
+                messageView.isHidden = true
+            case .error(let message):
+                tableView.isHidden = true
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
+                messageView.messageLabel.text = message
+            case .content:
+                tableView.isHidden = false
+                messageView.isHidden = true
+            case .empty:
+                tableView.isHidden = true
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
+                messageView.messageLabel.text = "Search for your favourite artists"
+            }
         }
     }
+    
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .clear
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 52
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ArtistCell.self, forCellReuseIdentifier: ArtistCell.reuseIdentifier)
+        return tableView
+    }()
     
     let searchController: UISearchController = {
         let controller = UISearchController()
@@ -34,6 +61,15 @@ class SearchArtistController: UITableViewController {
         controller.searchBar.placeholder = "Search artist by name"
         controller.searchBar.barStyle = .black
         return controller
+    }()
+    
+    let messageView: TableMessageView = {
+        let view = TableMessageView(frame: .zero)
+        view.backgroundColor = .clear
+        view.layer.cornerCurve = .continuous
+        view.layer.cornerRadius = 12.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -51,7 +87,7 @@ class SearchArtistController: UITableViewController {
     
     init(viewModel: SearchArtistViewModelType) {
         self.viewModel = viewModel
-        super.init(style: .plain)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -63,6 +99,12 @@ class SearchArtistController: UITableViewController {
     private func setupUI() {
         title = "Artists"
         view.backgroundColor = .tidalDarkBackground
+        
+        view.addSubview(messageView)
+        NSLayoutConstraint.activate([
+            messageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            messageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
     
     private func setupSearchController() {
@@ -72,27 +114,35 @@ class SearchArtistController: UITableViewController {
     }
     
     private func setupTableView() {
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 52
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.prefetchDataSource = self
-        tableView.register(ArtistCell.self, forCellReuseIdentifier: ArtistCell.reuseIdentifier)
     }
     
     private func setupViewModel() {
         viewModel.viewDelegate = self
     }
+}
+
+extension SearchArtistController: UITableViewDataSource, UITableViewDelegate {
     
-    // MARK: - UITableViewDataSource
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfArtists()
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ArtistCell.reuseIdentifier, for: indexPath) as? ArtistCell else {
             return UITableViewCell()
@@ -108,9 +158,7 @@ class SearchArtistController: UITableViewController {
         return cell
     }
     
-    // MARK: - UITableViewDelegate
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let artist = viewModel.artistFor(row: indexPath.row)
         coordinator?.showArtist(artist)
