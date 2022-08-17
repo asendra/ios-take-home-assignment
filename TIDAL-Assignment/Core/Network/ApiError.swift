@@ -10,11 +10,14 @@ import Foundation
 enum APIError: LocalizedError, Equatable {
     
     case invalidJSONResponse
+    case invalidImage
     
     public var errorDescription: String? {
         switch self {
         case .invalidJSONResponse:
             return "Invalid JSON response"
+        case .invalidImage:
+            return "Error loading image"
         }
     }
 }

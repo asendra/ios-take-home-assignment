@@ -10,13 +10,13 @@ import UIKit
 class ArtistCell: UITableViewCell {
 
     static let reuseIdentifier = "ArtistCell"
-    static private let iconSize = 44.0
+    static let iconSize = 44.0
     
     let iconView: UIImageView = {
         let view = UIImageView()
         //view.backgroundColor = .lightGray
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.layer.cornerCurve = .continuous
         view.layer.cornerRadius = 8.0
         view.clipsToBounds = true
@@ -51,11 +51,17 @@ class ArtistCell: UITableViewCell {
         contentView.addSubview(iconView)
         contentView.addSubview(nameLabel)
         
+        // Needed to fix auto layout warnings
+        let iconBottomConstraint = iconView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4.0)
+        iconBottomConstraint.priority = .defaultHigh
+        
         // Layout
         NSLayoutConstraint.activate([
-            iconView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             iconView.widthAnchor.constraint(equalToConstant: ArtistCell.iconSize),
             iconView.heightAnchor.constraint(equalToConstant: ArtistCell.iconSize),
+            iconView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            iconView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4.0),
+            iconBottomConstraint,
             nameLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: 12),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             nameLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),

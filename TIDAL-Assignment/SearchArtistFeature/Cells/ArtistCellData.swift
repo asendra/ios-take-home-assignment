@@ -9,13 +9,12 @@ import Foundation
 import UIKit
 
 protocol ArtistCellDataType {
-    var reuseIdentifier: String { get }
-    
     var id: Int { get }
     var name: String { get }
     var picture: URL { get }
     
-    func setup(_ cell: UITableViewCell, in tableView: UITableView, at indexPath: IndexPath)
+    var reuseIdentifier: String { get }
+    func setup(_ cell: ArtistCell, in tableView: UITableView, at indexPath: IndexPath)
 }
 
 struct ArtistCellData: ArtistCellDataType {
@@ -29,7 +28,7 @@ struct ArtistCellData: ArtistCellDataType {
     }
     
     var name: String {
-        return artist.name
+        return artist.name.capitalized
     }
     
     var picture: URL {
@@ -42,18 +41,8 @@ struct ArtistCellData: ArtistCellDataType {
         self.artist = artist
     }
     
-    func setup(_ cell: UITableViewCell, in tableView: UITableView, at indexPath: IndexPath) {
-        
-        guard let cell = cell as? ArtistCell else {
-            return
-        }
-        
-        cell.nameLabel.text = self.name.capitalized
-        cell.iconView.image = UIImage(systemName: "photo")
-        /*
-        Nuke.loadImage(with: imageURL,
-                       options: ImageLoadingOptions(placeholder: UIImage(named: "PlaceholderImage")),
-                       into: cell.iconView)
-        */
+    func setup(_ cell: ArtistCell, in tableView: UITableView, at indexPath: IndexPath) {
+        cell.nameLabel.text = self.name
+        cell.iconView.loadImage(from: self.picture, placeHolder: UIImage(systemName: "photo"))
     }
 }

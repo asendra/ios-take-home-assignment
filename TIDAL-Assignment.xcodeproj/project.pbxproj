@@ -37,6 +37,10 @@
 		4EBF494228AD4B23000D01B0 /* SearchArtistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494128AD4B23000D01B0 /* SearchArtistViewModel.swift */; };
 		4EBF494528AD7554000D01B0 /* ArtistCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494428AD7554000D01B0 /* ArtistCellData.swift */; };
 		4EBF494728AD7763000D01B0 /* ArtistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494628AD7763000D01B0 /* ArtistCell.swift */; };
+		4EBF494928AD8160000D01B0 /* CachedImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494828AD8160000D01B0 /* CachedImageService.swift */; };
+		4EBF494B28AD826E000D01B0 /* ImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494A28AD826E000D01B0 /* ImageClient.swift */; };
+		4EBF494D28AD8F42000D01B0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494C28AD8F42000D01B0 /* ImageCache.swift */; };
+		4EBF494F28ADA130000D01B0 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494E28ADA130000D01B0 /* AsyncImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +95,10 @@
 		4EBF494128AD4B23000D01B0 /* SearchArtistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArtistViewModel.swift; sourceTree = "<group>"; };
 		4EBF494428AD7554000D01B0 /* ArtistCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCellData.swift; sourceTree = "<group>"; };
 		4EBF494628AD7763000D01B0 /* ArtistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCell.swift; sourceTree = "<group>"; };
+		4EBF494828AD8160000D01B0 /* CachedImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImageService.swift; sourceTree = "<group>"; };
+		4EBF494A28AD826E000D01B0 /* ImageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClient.swift; sourceTree = "<group>"; };
+		4EBF494C28AD8F42000D01B0 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		4EBF494E28ADA130000D01B0 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				4EBF492828ACF460000D01B0 /* CustomColors.swift */,
+				4EBF494E28ADA130000D01B0 /* AsyncImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -249,6 +258,9 @@
 				4EBF493328AD09F6000D01B0 /* ApiClient.swift */,
 				4EBF493528AD1CB0000D01B0 /* ApiError.swift */,
 				4EBF493728AD1CC7000D01B0 /* Resource.swift */,
+				4EBF494A28AD826E000D01B0 /* ImageClient.swift */,
+				4EBF494C28AD8F42000D01B0 /* ImageCache.swift */,
+				4EBF494828AD8160000D01B0 /* CachedImageService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -393,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EBF494F28ADA130000D01B0 /* AsyncImage.swift in Sources */,
 				4EBF494528AD7554000D01B0 /* ArtistCellData.swift in Sources */,
 				4E966C3B28AB67C9006BC9A1 /* SearchArtistController.swift in Sources */,
 				4EBF494728AD7763000D01B0 /* ArtistCell.swift in Sources */,
@@ -405,6 +418,7 @@
 				4EBF494028AD3E55000D01B0 /* AlbumInfoApiService.swift in Sources */,
 				4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */,
 				4EBF493C28AD3299000D01B0 /* AlbumListApiService.swift in Sources */,
+				4EBF494D28AD8F42000D01B0 /* ImageCache.swift in Sources */,
 				4E966C7428AB6F52006BC9A1 /* AlbumListCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
 				4EBF493E28AD3B38000D01B0 /* Track.swift in Sources */,
@@ -415,7 +429,9 @@
 				4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */,
 				4EBF493628AD1CB0000D01B0 /* ApiError.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
+				4EBF494B28AD826E000D01B0 /* ImageClient.swift in Sources */,
 				4EBF493428AD09F6000D01B0 /* ApiClient.swift in Sources */,
+				4EBF494928AD8160000D01B0 /* CachedImageService.swift in Sources */,
 				4EBF493828AD1CC7000D01B0 /* Resource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

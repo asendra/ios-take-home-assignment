@@ -72,6 +72,8 @@ class SearchArtistController: UITableViewController {
     }
     
     private func setupTableView() {
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 52
         tableView.prefetchDataSource = self
         tableView.register(ArtistCell.self, forCellReuseIdentifier: ArtistCell.reuseIdentifier)
     }
