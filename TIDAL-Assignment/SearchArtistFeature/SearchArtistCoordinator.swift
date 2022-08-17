@@ -14,18 +14,21 @@ class SearchArtistCoordinator: NSObject, BaseCoordinator, UINavigationController
     var childCoordinators = [BaseCoordinator]()
     var navigationController: UINavigationController
     
-    init(rootController: UINavigationController) {
-        self.navigationController = rootController
+    let apiClient: ApiClient
+    
+    init(rootController: UINavigationController, client: ApiClient = ApiClient()) {
+        navigationController = rootController
+        apiClient = client
     }
 
     func start() {
-        let controller = SearchArtistController()
+        let controller = SearchArtistController(service: SearchArtistApiService(client: apiClient))
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
     }
     
-    func showArtist() {
-        let child = ArtistCoordinator(rootController: navigationController)
+    func showArtist(_ artist: Artist) {
+        let child = ArtistCoordinator(rootController: navigationController, client: apiClient, artist: artist)
         childCoordinators.append(child)
         child.parentCoordinator = self
         child.start()

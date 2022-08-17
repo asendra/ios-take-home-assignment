@@ -25,6 +25,11 @@
 		4E966C7C28ABA11C006BC9A1 /* Coordinated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */; };
 		4EBF492628ACE82C000D01B0 /* IC-TheCodingChallenge.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4EBF492528ACE82C000D01B0 /* IC-TheCodingChallenge.pdf */; };
 		4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF492828ACF460000D01B0 /* CustomColors.swift */; };
+		4EBF492F28AD0865000D01B0 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF492E28AD0865000D01B0 /* Artist.swift */; };
+		4EBF493228AD0953000D01B0 /* SearchArtistApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493128AD0953000D01B0 /* SearchArtistApiService.swift */; };
+		4EBF493428AD09F6000D01B0 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493328AD09F6000D01B0 /* ApiClient.swift */; };
+		4EBF493628AD1CB0000D01B0 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493528AD1CB0000D01B0 /* ApiError.swift */; };
+		4EBF493828AD1CC7000D01B0 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF493728AD1CC7000D01B0 /* Resource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +72,11 @@
 		4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinated.swift; sourceTree = "<group>"; };
 		4EBF492528ACE82C000D01B0 /* IC-TheCodingChallenge.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "IC-TheCodingChallenge.pdf"; sourceTree = "<group>"; };
 		4EBF492828ACF460000D01B0 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
+		4EBF492E28AD0865000D01B0 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
+		4EBF493128AD0953000D01B0 /* SearchArtistApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchArtistApiService.swift; sourceTree = "<group>"; };
+		4EBF493328AD09F6000D01B0 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		4EBF493528AD1CB0000D01B0 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
+		4EBF493728AD1CC7000D01B0 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +162,8 @@
 		4E966C6628AB694E006BC9A1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4EBF493028AD08F0000D01B0 /* Network */,
+				4EBF492D28AD0832000D01B0 /* Models */,
 				4EBF492728ACF44D000D01B0 /* Extensions */,
 				4E966C6A28AB6A91006BC9A1 /* Coordinators */,
 			);
@@ -163,6 +175,7 @@
 			children = (
 				4E966C3A28AB67C9006BC9A1 /* SearchArtistController.swift */,
 				4E966C6B28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift */,
+				4EBF493128AD0953000D01B0 /* SearchArtistApiService.swift */,
 			);
 			path = SearchArtistFeature;
 			sourceTree = "<group>";
@@ -200,6 +213,24 @@
 				4EBF492828ACF460000D01B0 /* CustomColors.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4EBF492D28AD0832000D01B0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF492E28AD0865000D01B0 /* Artist.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4EBF493028AD08F0000D01B0 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF493328AD09F6000D01B0 /* ApiClient.swift */,
+				4EBF493528AD1CB0000D01B0 /* ApiError.swift */,
+				4EBF493728AD1CC7000D01B0 /* Resource.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,9 +373,14 @@
 				4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */,
 				4E966C7428AB6F52006BC9A1 /* ArtistCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
+				4EBF492F28AD0865000D01B0 /* Artist.swift in Sources */,
 				4E966C7828AB7572006BC9A1 /* AlbumCoordinator.swift in Sources */,
+				4EBF493228AD0953000D01B0 /* SearchArtistApiService.swift in Sources */,
 				4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */,
+				4EBF493628AD1CB0000D01B0 /* ApiError.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
+				4EBF493428AD09F6000D01B0 /* ApiClient.swift in Sources */,
+				4EBF493828AD1CC7000D01B0 /* Resource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

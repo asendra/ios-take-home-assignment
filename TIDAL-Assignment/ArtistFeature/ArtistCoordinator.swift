@@ -14,12 +14,18 @@ class ArtistCoordinator: BaseCoordinator {
     var childCoordinators = [BaseCoordinator]()
     var navigationController: UINavigationController
     
-    init(rootController: UINavigationController) {
-        self.navigationController = rootController
+    let apiClient: ApiClient
+    
+    let artist: Artist
+    
+    init(rootController: UINavigationController, client: ApiClient = ApiClient(), artist: Artist) {
+        navigationController = rootController
+        apiClient = client
+        self.artist = artist
     }
 
     func start() {
-        let controller = ArtistController()
+        let controller = ArtistController(artist: artist)
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
     }
