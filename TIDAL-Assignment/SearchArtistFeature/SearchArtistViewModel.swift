@@ -18,6 +18,7 @@ protocol SearchArtistViewModelType {
     // Data Source
     func numberOfArtists() -> Int
     func artistFor(row: Int) -> Artist
+    func artistDataFor(row: Int) -> ArtistCellDataType
     func isLoading(for indexPath: IndexPath) -> Bool
     // Events
     func start()
@@ -97,6 +98,10 @@ extension SearchArtistViewModel: SearchArtistViewModelType {
     
     func artistFor(row: Int) -> Artist {
         return artists[row]
+    }
+    
+    func artistDataFor(row: Int) -> ArtistCellDataType {
+        return ArtistCellData(artist: artistFor(row: row))
     }
     
     func isLoading(for indexPath: IndexPath) -> Bool {

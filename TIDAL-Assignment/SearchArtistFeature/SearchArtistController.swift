@@ -73,7 +73,7 @@ class SearchArtistController: UITableViewController {
     
     private func setupTableView() {
         tableView.prefetchDataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(ArtistCell.self, forCellReuseIdentifier: ArtistCell.reuseIdentifier)
     }
     
     private func setupViewModel() {
@@ -91,15 +91,16 @@ class SearchArtistController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = .clear
-        cell.textLabel?.textColor = .white
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ArtistCell.reuseIdentifier, for: indexPath) as? ArtistCell else {
+            return UITableViewCell()
+        }
         
         if viewModel.isLoading(for: indexPath) {
-            cell.textLabel?.text = "Loading...."
+            // TODO: Decide how to handle..
         } else {
-            let artist = viewModel.artistFor(row: indexPath.row)
-            cell.textLabel?.text = artist.name
+            let artistData = viewModel.artistDataFor(row: indexPath.row)
+            artistData.setup(cell, in: tableView, at: indexPath)
         }
         
         return cell
