@@ -23,6 +23,8 @@
 		4E966C7628AB7567006BC9A1 /* AlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7528AB7567006BC9A1 /* AlbumController.swift */; };
 		4E966C7828AB7572006BC9A1 /* AlbumCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7728AB7572006BC9A1 /* AlbumCoordinator.swift */; };
 		4E966C7C28ABA11C006BC9A1 /* Coordinated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */; };
+		4EBF492628ACE82C000D01B0 /* IC-TheCodingChallenge.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4EBF492528ACE82C000D01B0 /* IC-TheCodingChallenge.pdf */; };
+		4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF492828ACF460000D01B0 /* CustomColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		4E966C7528AB7567006BC9A1 /* AlbumController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumController.swift; sourceTree = "<group>"; };
 		4E966C7728AB7572006BC9A1 /* AlbumCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoordinator.swift; sourceTree = "<group>"; };
 		4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinated.swift; sourceTree = "<group>"; };
+		4EBF492528ACE82C000D01B0 /* IC-TheCodingChallenge.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "IC-TheCodingChallenge.pdf"; sourceTree = "<group>"; };
+		4EBF492828ACF460000D01B0 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 		4E966C2A28AB67C9006BC9A1 = {
 			isa = PBXGroup;
 			children = (
+				4EBF492528ACE82C000D01B0 /* IC-TheCodingChallenge.pdf */,
 				4E966C3528AB67C9006BC9A1 /* TIDAL-Assignment */,
 				4E966C4C28AB67CB006BC9A1 /* TIDAL-AssignmentTests */,
 				4E966C5628AB67CB006BC9A1 /* TIDAL-AssignmentUITests */,
@@ -147,6 +152,7 @@
 		4E966C6628AB694E006BC9A1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4EBF492728ACF44D000D01B0 /* Extensions */,
 				4E966C6A28AB6A91006BC9A1 /* Coordinators */,
 			);
 			path = Core;
@@ -186,6 +192,14 @@
 				4E966C7B28ABA11C006BC9A1 /* Coordinated.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		4EBF492728ACF44D000D01B0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF492828ACF460000D01B0 /* CustomColors.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +308,7 @@
 			files = (
 				4E966C4328AB67CB006BC9A1 /* LaunchScreen.storyboard in Resources */,
 				4E966C4028AB67CB006BC9A1 /* Assets.xcassets in Resources */,
+				4EBF492628ACE82C000D01B0 /* IC-TheCodingChallenge.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +343,7 @@
 				4E966C7428AB6F52006BC9A1 /* ArtistCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
 				4E966C7828AB7572006BC9A1 /* AlbumCoordinator.swift in Sources */,
+				4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,10 +14,20 @@ class ArtistController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Artist"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Album", style: .plain, target: self, action: #selector(showAlbum(_:)))
+        
+        setUpUI()
     }
 
+    // MARK: - Private
+    
+    private func setUpUI() {
+        title = "Artist"
+        view.backgroundColor = .tidalDarkBackground
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Album", style: .plain, target: self, action: #selector(showAlbum(_:)))
+    }
+    
+    // MARK: - Actions
+    
     @objc private func showAlbum(_ sender: UIBarButtonItem) {
         coordinator?.showAlbum()
     }

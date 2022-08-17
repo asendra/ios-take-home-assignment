@@ -12,6 +12,7 @@ protocol BaseCoordinator: AnyObject {
     var parentCoordinator: BaseCoordinator? { get set }
     var childCoordinators: [BaseCoordinator] { get set }
     var navigationController: UINavigationController { get set }
+    
     func start()
 }
 
@@ -22,7 +23,6 @@ extension BaseCoordinator {
         // Call this if a coordinator is done.
         for (index, child) in childCoordinators.enumerated() {
             if child === coordinator {
-                print("Removing child coordinator: \(child) from \(self)")
                 childCoordinators.remove(at: index)
                 break
             }

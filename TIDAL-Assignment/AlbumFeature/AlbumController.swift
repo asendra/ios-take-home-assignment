@@ -14,7 +14,15 @@ class AlbumController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Album"
+        
+        setUpUI()
+    }
+    
+    // MARK: - Private
+    
+    private func setUpUI() {
+        title = "Album"
+        view.backgroundColor = .tidalDarkBackground
     }
 }
 
