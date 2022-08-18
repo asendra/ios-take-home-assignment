@@ -55,12 +55,12 @@ class AlbumListViewModel {
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     
-    private func processAlbumListResponse(_ response: AlbumListResponse) {
+    private func processAlbumListResponse(_ response: AlbumListResponse, reload: Bool) {
         let updatedPaths = calculateIndexPathsToReload(from: response.data)
         totalCount = response.total
         offset += response.data.count
         albums += response.data
-        viewDelegate?.updateAlbums(for: updatedPaths)
+        viewDelegate?.updateAlbums(for: (reload) ? updatedPaths : nil)
         
         // Async fetch album metadata
         fetchAlbumInfo(for: updatedPaths)
@@ -73,7 +73,7 @@ class AlbumListViewModel {
         service.getAlbums(forArtist: artist, offset: nil) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.processAlbumListResponse(response)
+                self?.processAlbumListResponse(response, reload: false)
                 self?.viewDelegate?.updateState(.content)
             case .failure(let error):
                 self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
@@ -155,7 +155,7 @@ extension AlbumListViewModel: AlbumListViewModelType {
             self?.isPreFetching = false
             switch result {
             case .success(let response):
-                self?.processAlbumListResponse(response)
+                self?.processAlbumListResponse(response, reload: true)
             case .failure(let error):
                 self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
             }
