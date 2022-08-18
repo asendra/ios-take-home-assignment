@@ -50,6 +50,7 @@
 		4EBF496028AECCD0000D01B0 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF495F28AECCD0000D01B0 /* TrackCell.swift */; };
 		4EBF496228AEE39C000D01B0 /* AlbumTracksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */; };
 		4EBF496428AEE5B8000D01B0 /* TracksCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */; };
+		4EBF496728AEF211000D01B0 /* ViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496628AEF211000D01B0 /* ViewControllerState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		4EBF495F28AECCD0000D01B0 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
 		4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTracksViewModel.swift; sourceTree = "<group>"; };
 		4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksCellData.swift; sourceTree = "<group>"; };
+		4EBF496628AEF211000D01B0 /* ViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 		4E966C6628AB694E006BC9A1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4EBF496528AEF1FD000D01B0 /* Constants */,
 				4EBF495028ADA54C000D01B0 /* Views */,
 				4EBF493028AD08F0000D01B0 /* Network */,
 				4EBF492D28AD0832000D01B0 /* Models */,
@@ -323,6 +326,14 @@
 				4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		4EBF496528AEF1FD000D01B0 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF496628AEF211000D01B0 /* ViewControllerState.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -468,6 +479,7 @@
 				4EBF493A28AD30B0000D01B0 /* Album.swift in Sources */,
 				4E966C7228AB6F40006BC9A1 /* AlbumListController.swift in Sources */,
 				4EBF495228ADA56A000D01B0 /* TableMessageView.swift in Sources */,
+				4EBF496728AEF211000D01B0 /* ViewControllerState.swift in Sources */,
 				4EBF494028AD3E55000D01B0 /* AlbumTracksApiService.swift in Sources */,
 				4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */,
 				4EBF493C28AD3299000D01B0 /* AlbumListApiService.swift in Sources */,

@@ -7,13 +7,6 @@
 
 import UIKit
 
-enum ViewControllerState {
-    case content
-    case loading
-    case error(message: String)
-    case empty
-}
-
 class SearchArtistController: UIViewController {
     
     weak var coordinator: SearchArtistCoordinator?
