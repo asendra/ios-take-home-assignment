@@ -25,7 +25,8 @@ class AlbumListCoordinator: BaseCoordinator {
     }
 
     func start() {
-        let controller = AlbumListController(artist: artist, service: AlbumListApiService(client: apiClient))
+        let viewModel = AlbumListViewModel(service: AlbumListApiService(client: apiClient), artist: artist)
+        let controller = AlbumListController(viewModel: viewModel)
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
     }

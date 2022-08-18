@@ -12,13 +12,29 @@ class AlbumListController: UITableViewController {
     
     weak var coordinator: AlbumListCoordinator?
     
-    let artist: Artist
+    var viewModel: AlbumListViewModelType
     
-    let albumListService: AlbumListApiService
-    
-    var albums = [Album]() {
+    var state = ViewControllerState.empty {
         didSet {
-            tableView.reloadData()
+            print("Updated state = \(state)")
+            switch(state) {
+            case .loading:
+                tableView.isHidden = true
+                //messageView.isHidden = true
+            case .error(_):
+                tableView.isHidden = true
+                //messageView.isHidden = false
+                //messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
+                //messageView.messageLabel.text = message
+            case .content:
+                tableView.isHidden = false
+                //messageView.isHidden = true
+            case .empty:
+                tableView.isHidden = true
+                //messageView.isHidden = false
+                //messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
+                //messageView.messageLabel.text = "Search for your favourite artists"
+            }
         }
     }
     
@@ -27,24 +43,15 @@ class AlbumListController: UITableViewController {
         
         setUpUI()
         setUpTableView()
+        setupViewModel()
         
-        albumListService.getAlbums(forArtist: artist, offset: nil) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let albums):
-                    self?.albums = albums
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
+        viewModel.start()
     }
     
     // MARK: - Init
     
-    init(artist: Artist, service: AlbumListApiService) {
-        self.artist = artist
-        self.albumListService = service
+    init(viewModel: AlbumListViewModelType) {
+        self.viewModel = viewModel
         super.init(style: .plain)
     }
     
@@ -55,12 +62,17 @@ class AlbumListController: UITableViewController {
     // MARK: - Private
     
     private func setUpUI() {
-        title = artist.name
+        title = viewModel.artistName()
         view.backgroundColor = .tidalDarkBackground
     }
     
     private func setUpTableView() {
+        tableView.prefetchDataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    }
+    
+    private func setupViewModel() {
+        viewModel.viewDelegate = self
     }
     
     // MARK: - UITableViewDataSource
@@ -70,7 +82,7 @@ class AlbumListController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return albums.count
+        return viewModel.numberOfAlbums()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,8 +90,12 @@ class AlbumListController: UITableViewController {
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         
-        let album = albums[indexPath.row]
-        cell.textLabel?.text = album.title
+        if viewModel.isLoading(for: indexPath) {
+            // TODO: Decide how to handle..
+        } else {
+            let album = viewModel.albumFor(row: indexPath.row)
+            cell.textLabel?.text = album.title
+        }
         
         return cell
     }
@@ -88,8 +104,35 @@ class AlbumListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let album = albums[indexPath.row]
+        let album = viewModel.albumFor(row: indexPath.row)
         coordinator?.showAlbum(album)
+    }
+}
+
+extension AlbumListController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: viewModel.isLoading(for:)) {
+            viewModel.fetchMoreAlbums()
+        }
+    }
+}
+
+extension AlbumListController: AlbumListViewModelViewDelegate {
+    func updateAlbums(for indexPaths: [IndexPath]?) {
+        DispatchQueue.main.async { [weak self] in
+            if let paths = indexPaths {
+                self?.tableView.reloadRows(at: paths, with: .automatic)
+            }
+            else {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+
+    func updateState(_ state: ViewControllerState) {
+        DispatchQueue.main.async { [weak self] in
+            self?.state = state
+        }
     }
 }
 

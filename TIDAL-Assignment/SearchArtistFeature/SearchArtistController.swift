@@ -165,6 +165,21 @@ extension SearchArtistController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+extension SearchArtistController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: viewModel.isLoading(for:)) {
+            viewModel.fetchMoreArtists()
+        }
+    }
+}
+
+extension SearchArtistController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        viewModel.searchFor(text: text)
+    }
+}
+
 extension SearchArtistController: SearchArtistViewModelViewDelegate {
     func updateArtists(for indexPaths: [IndexPath]?) {
         DispatchQueue.main.async { [weak self] in
@@ -181,21 +196,6 @@ extension SearchArtistController: SearchArtistViewModelViewDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.state = state
         }
-    }
-}
-
-extension SearchArtistController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        if indexPaths.contains(where: viewModel.isLoading(for:)) {
-            viewModel.fetchMoreArtists()
-        }
-    }
-}
-
-extension SearchArtistController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        viewModel.searchFor(text: text)
     }
 }
 

@@ -42,6 +42,7 @@
 		4EBF494D28AD8F42000D01B0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494C28AD8F42000D01B0 /* ImageCache.swift */; };
 		4EBF494F28ADA130000D01B0 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF494E28ADA130000D01B0 /* AsyncImage.swift */; };
 		4EBF495228ADA56A000D01B0 /* TableMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF495128ADA56A000D01B0 /* TableMessageView.swift */; };
+		4EBF495428AE1B5D000D01B0 /* AlbumListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF495328AE1B5D000D01B0 /* AlbumListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		4EBF494C28AD8F42000D01B0 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		4EBF494E28ADA130000D01B0 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		4EBF495128ADA56A000D01B0 /* TableMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableMessageView.swift; sourceTree = "<group>"; };
+		4EBF495328AE1B5D000D01B0 /* AlbumListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				4E966C7128AB6F40006BC9A1 /* AlbumListController.swift */,
 				4E966C7328AB6F52006BC9A1 /* AlbumListCoordinator.swift */,
 				4EBF493B28AD3299000D01B0 /* AlbumListApiService.swift */,
+				4EBF495328AE1B5D000D01B0 /* AlbumListViewModel.swift */,
 			);
 			path = AlbumListFeature;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				4EBF494028AD3E55000D01B0 /* AlbumInfoApiService.swift in Sources */,
 				4E966C6E28AB6ABF006BC9A1 /* AppCoordinator.swift in Sources */,
 				4EBF493C28AD3299000D01B0 /* AlbumListApiService.swift in Sources */,
+				4EBF495428AE1B5D000D01B0 /* AlbumListViewModel.swift in Sources */,
 				4EBF494D28AD8F42000D01B0 /* ImageCache.swift in Sources */,
 				4E966C7428AB6F52006BC9A1 /* AlbumListCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
