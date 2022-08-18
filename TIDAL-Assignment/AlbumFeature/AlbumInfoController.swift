@@ -29,11 +29,11 @@ class AlbumInfoController: UITableViewController {
         setUpUI()
         setUpTableView()
         
-        infoService.getAlbumInfo(album) { [weak self] result in
+        infoService.getTracks(forAlbum: album) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let info):
-                    self?.info = info
+                case .success(let tracks):
+                    self?.tracks = tracks
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

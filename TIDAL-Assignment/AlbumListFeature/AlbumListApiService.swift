@@ -8,7 +8,8 @@
 import Foundation
 
 protocol AlbumListService {
-    func getAlbums(forArtist artist: Artist, offset: Int?, completion: @escaping (Result<[Album], Error>) -> Void)
+    func getAlbums(forArtist artist: Artist, offset: Int?, completion: @escaping (Result<AlbumListResponse, Error>) -> Void)
+    func getAlbumInfo(_ album: Album, completion: @escaping (Result<AlbumInfoResponse, Error>) -> Void)
 }
 
 final class AlbumListApiService {
@@ -24,7 +25,7 @@ final class AlbumListApiService {
 // MARK: - API
 
 extension AlbumListApiService: AlbumListService {
-    func getAlbums(forArtist artist: Artist, offset: Int?, completion: @escaping (Result<[Album], Error>) -> Void){
+    func getAlbums(forArtist artist: Artist, offset: Int?, completion: @escaping (Result<AlbumListResponse, Error>) -> Void){
         
         var path = "artist/\(artist.id)/albums"
         if let index = offset {
@@ -34,7 +35,19 @@ extension AlbumListApiService: AlbumListService {
         let resource = Resource<AlbumListResponse>(get: path)
         apiClient.load(resource: resource) { result in
             if let result = result {
-                completion(.success(result.data))
+                completion(.success(result))
+            }
+            else {
+                completion(.failure(APIError.invalidJSONResponse))
+            }
+        }
+    }
+    
+    func getAlbumInfo(_ album: Album, completion: @escaping (Result<AlbumInfoResponse, Error>) -> Void) {
+        let resource = Resource<AlbumInfoResponse>(get: "album/\(album.id)")
+        apiClient.load(resource: resource) { result in
+            if let result = result {
+                completion(.success(result))
             }
             else {
                 completion(.failure(APIError.invalidJSONResponse))
