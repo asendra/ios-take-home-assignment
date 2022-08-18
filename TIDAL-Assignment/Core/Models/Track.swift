@@ -14,7 +14,7 @@ struct TrackListResponse: Decodable {
 struct Track: Decodable {
     
     enum CodingKeys: String, CodingKey {
-        case id, title, duration
+        case id, title, duration, artist
         case trackPosition = "track_position"
         case diskNumber = "disk_number"
     }
@@ -24,4 +24,11 @@ struct Track: Decodable {
     let duration: Int
     let trackPosition: Int
     let diskNumber: Int
+    let artist: TrackArtist
 }
+
+struct TrackArtist: Decodable {
+    let id: Int
+    let name: String
+}
+

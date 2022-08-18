@@ -48,6 +48,8 @@
 		4EBF495C28AEC412000D01B0 /* CoverHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF495B28AEC412000D01B0 /* CoverHeaderView.swift */; };
 		4EBF495E28AECB27000D01B0 /* AlbumVolumeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF495D28AECB27000D01B0 /* AlbumVolumeHeaderView.swift */; };
 		4EBF496028AECCD0000D01B0 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF495F28AECCD0000D01B0 /* TrackCell.swift */; };
+		4EBF496228AEE39C000D01B0 /* AlbumTracksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */; };
+		4EBF496428AEE5B8000D01B0 /* TracksCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +115,8 @@
 		4EBF495B28AEC412000D01B0 /* CoverHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverHeaderView.swift; sourceTree = "<group>"; };
 		4EBF495D28AECB27000D01B0 /* AlbumVolumeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumVolumeHeaderView.swift; sourceTree = "<group>"; };
 		4EBF495F28AECCD0000D01B0 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
+		4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTracksViewModel.swift; sourceTree = "<group>"; };
+		4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksCellData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +242,7 @@
 				4E966C7528AB7567006BC9A1 /* AlbumTracksController.swift */,
 				4E966C7728AB7572006BC9A1 /* AlbumTracksCoordinator.swift */,
 				4EBF493F28AD3E55000D01B0 /* AlbumTracksApiService.swift */,
+				4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */,
 			);
 			path = AlbumTracksFeature;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 				4EBF495B28AEC412000D01B0 /* CoverHeaderView.swift */,
 				4EBF495D28AECB27000D01B0 /* AlbumVolumeHeaderView.swift */,
 				4EBF495F28AECCD0000D01B0 /* TrackCell.swift */,
+				4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -476,10 +482,12 @@
 				4EBF493228AD0953000D01B0 /* SearchArtistApiService.swift in Sources */,
 				4EBF492928ACF460000D01B0 /* CustomColors.swift in Sources */,
 				4EBF493628AD1CB0000D01B0 /* ApiError.swift in Sources */,
+				4EBF496428AEE5B8000D01B0 /* TracksCellData.swift in Sources */,
 				4E966C3928AB67C9006BC9A1 /* SceneDelegate.swift in Sources */,
 				4EBF494B28AD826E000D01B0 /* ImageClient.swift in Sources */,
 				4EBF495928AE2261000D01B0 /* AlbumCell.swift in Sources */,
 				4EBF493428AD09F6000D01B0 /* ApiClient.swift in Sources */,
+				4EBF496228AEE39C000D01B0 /* AlbumTracksViewModel.swift in Sources */,
 				4EBF495728AE224D000D01B0 /* AlbumCellData.swift in Sources */,
 				4EBF494928AD8160000D01B0 /* CachedImageService.swift in Sources */,
 				4EBF495E28AECB27000D01B0 /* AlbumVolumeHeaderView.swift in Sources */,

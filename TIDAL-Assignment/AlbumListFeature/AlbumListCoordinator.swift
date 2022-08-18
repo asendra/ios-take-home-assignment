@@ -32,7 +32,7 @@ class AlbumListCoordinator: BaseCoordinator {
     }
     
     func showAlbum(_ album: Album) {
-        let child = AlbumTracksCoordinator(rootController: navigationController, client: apiClient, album: album)
+        let child = AlbumTracksCoordinator(rootController: navigationController, client: apiClient, artist: artist, album: album)
         childCoordinators.append(child)
         child.parentCoordinator = self
         child.start()

@@ -8,18 +8,32 @@
 import Foundation
 import UIKit
 
-class AlbumTracksController: UITableViewController {
+class AlbumTracksController: UIViewController {
     
     weak var coordinator: AlbumTracksCoordinator?
     
-    let album: Album
+    var viewModel: AlbumTracksViewModelType
     
-    let infoService: AlbumTracksApiService
-    
-    var info: AlbumInfoResponse?
-    var tracks = [Track]() {
+    var state = ViewControllerState.empty {
         didSet {
-            tableView.reloadData()
+            switch(state) {
+            case .loading:
+                tableView.isHidden = true
+                messageView.isHidden = true
+            case .error(let message):
+                tableView.isHidden = true
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
+                messageView.messageLabel.text = message
+            case .content:
+                tableView.isHidden = false
+                messageView.isHidden = true
+            case .empty:
+                tableView.isHidden = true
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
+                messageView.messageLabel.text = "Search for your favourite artists"
+            }
         }
     }
     
@@ -29,32 +43,42 @@ class AlbumTracksController: UITableViewController {
         return view
     }()
     
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .clear
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 52
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(AlbumVolumeHeaderView.self, forHeaderFooterViewReuseIdentifier: AlbumVolumeHeaderView.reuseIdentifier)
+        tableView.register(TrackCell.self, forCellReuseIdentifier: TrackCell.reuseIdentifier)
+        return tableView
+    }()
+    
+    let messageView: TableMessageView = {
+        let view = TableMessageView(frame: .zero)
+        view.backgroundColor = .clear
+        view.layer.cornerCurve = .continuous
+        view.layer.cornerRadius = 12.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
-        setUpTableView()
+        setupUI()
+        setupTableView()
+        setupViewModel()
         
-        infoService.getTracks(forAlbum: album) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let tracks):
-                    self?.tracks = tracks
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        
-        headerView.imageView.loadImage(from: album.coverXL, placeHolder: UIImage(systemName: "person"))
+        viewModel.start()
+        headerView.imageView.loadImage(from: viewModel.albumCover(), placeHolder: UIImage(systemName: "person"))
     }
     
     // MARK: - Init
     
-    init(album: Album, service: AlbumTracksApiService) {
-        self.infoService = service
-        self.album = album
-        super.init(style: .plain)
+    init(viewModel: AlbumTracksViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -63,16 +87,34 @@ class AlbumTracksController: UITableViewController {
     
     // MARK: - Private
     
-    private func setUpUI() {
-        title = album.title
+    private func setupUI() {
+        title = viewModel.albumName()
         view.backgroundColor = .tidalDarkBackground
+        
+        view.addSubview(messageView)
+        NSLayoutConstraint.activate([
+            messageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            messageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
     
-    private func setUpTableView() {
-        tableView.register(AlbumVolumeHeaderView.self, forHeaderFooterViewReuseIdentifier: AlbumVolumeHeaderView.reuseIdentifier)
-        tableView.register(TrackCell.self, forCellReuseIdentifier: TrackCell.reuseIdentifier)
-            
+    private func setupTableView() {
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         setAndLayoutTableHeaderView(header: headerView)
+    }
+    
+    private func setupViewModel() {
+        viewModel.viewDelegate = self
     }
     
     func setAndLayoutTableHeaderView(header: UIView) {
@@ -87,39 +129,53 @@ class AlbumTracksController: UITableViewController {
         header.frame.size =  header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         tableView.tableHeaderView = header
     }
-    
-    // MARK: - UITableViewDataSource
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+}
+
+extension AlbumTracksController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.numberOfVolumes()
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooterView(withIdentifier: AlbumVolumeHeaderView.reuseIdentifier)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let volumeHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: AlbumVolumeHeaderView.reuseIdentifier) as! AlbumVolumeHeaderView
+        volumeHeaderView.titleLabel.text = viewModel.volumeNameFor(section: section)
+        return volumeHeaderView
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tracks.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfTracksFor(section: section)
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackCell.reuseIdentifier, for: indexPath) as! TrackCell
-        cell.backgroundColor = .clear
-        cell.textLabel?.textColor = .white
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let track = tracks[indexPath.row]
-        cell.positionLabel.text = "\(track.trackPosition)."
-        cell.titleLabel.text = track.title
-        cell.artistLabel.text = "Lorem ipsum"
-        cell.durationLabel.text = String(track.duration)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackCell.reuseIdentifier, for: indexPath) as? TrackCell else {
+            return UITableViewCell()
+        }
+        
+        let trackData = viewModel.trackDataFor(path: indexPath)
+        trackData.setup(cell, in: tableView, at: indexPath)
         
         return cell
     }
     
     // MARK: - UITableViewDelegate
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension AlbumTracksController: AlbumTracksViewModelViewDelegate {
+    func updateTracks() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+
+    func updateState(_ state: ViewControllerState) {
+        DispatchQueue.main.async { [weak self] in
+            self?.state = state
+        }
     }
 }
 
