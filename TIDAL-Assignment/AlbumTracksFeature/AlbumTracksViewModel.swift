@@ -46,8 +46,6 @@ class AlbumTracksViewModel {
         self.album = album
     }
     
-    // MARK: - Private
-    
     // MARK: - Network
     
     func fetchTracks() {
@@ -57,13 +55,7 @@ class AlbumTracksViewModel {
             case .success(let tracks):
                 for track in tracks {
                     let fixedDiskNumber = track.diskNumber-1
-                    if var tracks = self?.sections[fixedDiskNumber] {
-                        tracks.append(track)
-                        self?.sections[fixedDiskNumber] = tracks
-                    }
-                    else {
-                        self?.sections[fixedDiskNumber] = [track]
-                    }
+                    self?.sections[fixedDiskNumber, default: [Track]()].append(track)
                 }
                 self?.viewDelegate?.updateTracks()
                 self?.viewDelegate?.updateState(.content)
