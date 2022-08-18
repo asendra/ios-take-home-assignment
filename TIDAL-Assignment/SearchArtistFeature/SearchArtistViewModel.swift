@@ -60,7 +60,7 @@ class SearchArtistViewModel {
     }
     
     private func calculateIndexPathsToReload(from newArtists: [Artist]) -> [IndexPath] {
-      let startIndex = artists.count - newArtists.count
+      let startIndex = artists.count
       let endIndex = startIndex + newArtists.count
       return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
@@ -68,23 +68,29 @@ class SearchArtistViewModel {
     // MARK: - Network
     
     @objc func fetchArtists(text: String) {
-        print("Searching artist by: " + text)
         currentSearchTerm = text
+        offset = 0
+        artists = []
         isSearching = true
         viewDelegate?.updateState(.loading)
         service.getArtists(withText: text, offset: nil) { [weak self] result in
             self?.isSearching = false
             switch result {
             case .success(let response):
-                self?.totalCount = response.total
-                self?.offset = response.data.count
-                self?.artists = response.data
+                self?.processSearchResponse(response: response, reload: false)
                 self?.viewDelegate?.updateState(.content)
-                self?.viewDelegate?.updateArtists(for: nil)
             case .failure(let error):
                 self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
             }
         }
+    }
+    
+    func processSearchResponse(response: SearchArtistResponse, reload: Bool) {
+        let updatedPaths = (reload) ? calculateIndexPathsToReload(from: response.data) : nil
+        totalCount = response.total
+        offset += response.data.count
+        artists += response.data
+        viewDelegate?.updateArtists(for: updatedPaths)
     }
 }
 
@@ -116,6 +122,8 @@ extension SearchArtistViewModel: SearchArtistViewModelType {
     
     func searchFor(text: String) {
         
+        guard text != currentSearchTerm else { return }
+        
         guard !text.isEmpty else {
             resetSearch()
             return
@@ -143,10 +151,7 @@ extension SearchArtistViewModel: SearchArtistViewModelType {
             self?.isPreFetching = false
             switch result {
             case .success(let response):
-                let updatedPaths = self?.calculateIndexPathsToReload(from: response.data)
-                self?.offset += response.data.count
-                self?.artists += response.data
-                self?.viewDelegate?.updateArtists(for: updatedPaths)
+                self?.processSearchResponse(response: response, reload: true)
             case .failure(let error):
                 self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
             }
