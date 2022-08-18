@@ -23,6 +23,12 @@ class AlbumInfoController: UITableViewController {
         }
     }
     
+    let headerView: CoverHeaderView = {
+        let view = CoverHeaderView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,16 +46,7 @@ class AlbumInfoController: UITableViewController {
             }
         }
         
-        infoService.getTracks(forAlbum: album) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let tracks):
-                    self?.tracks = tracks
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
+        headerView.imageView.loadImage(from: album.coverXL, placeHolder: UIImage(systemName: "person"))
     }
     
     // MARK: - Init
@@ -73,6 +70,20 @@ class AlbumInfoController: UITableViewController {
     
     private func setUpTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+            
+        setAndLayoutTableHeaderView(header: headerView)
+    }
+    
+    func setAndLayoutTableHeaderView(header: UIView) {
+        tableView.tableHeaderView = header
+        tableView.tableHeaderView?.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            header.widthAnchor.constraint(equalTo: tableView.widthAnchor)
+        ])
+        header.setNeedsLayout()
+        header.layoutIfNeeded()
+        header.frame.size =  header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        tableView.tableHeaderView = header
     }
     
     // MARK: - UITableViewDataSource
