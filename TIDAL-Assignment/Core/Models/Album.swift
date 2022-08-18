@@ -13,6 +13,12 @@ struct AlbumListResponse: Decodable {
 }
 
 struct Album: Decodable {
+    
+    enum CodingKeys: String, CodingKey {
+        case id, title
+        case cover = "cover_medium"
+    }
+    
     let id: Int
     let title: String
     let cover: URL

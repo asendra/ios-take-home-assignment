@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AlbumInfoService {
-    func getAlbumInfo(_ album: Album, completion: @escaping (Result<AlbumInfoResponse, Error>) -> Void)
+    func getTracks(forAlbum album: Album, completion: @escaping (Result<[Track], Error>) -> Void)
 }
 
 final class AlbumInfoApiService {
@@ -24,18 +24,6 @@ final class AlbumInfoApiService {
 // MARK: - API
 
 extension AlbumInfoApiService: AlbumInfoService {
-    func getAlbumInfo(_ album: Album, completion: @escaping (Result<AlbumInfoResponse, Error>) -> Void) {
-        let resource = Resource<AlbumInfoResponse>(get: "album/\(album.id)")
-        apiClient.load(resource: resource) { result in
-            if let result = result {
-                completion(.success(result))
-            }
-            else {
-                completion(.failure(APIError.invalidJSONResponse))
-            }
-        }
-    }
-    
     func getTracks(forAlbum album: Album, completion: @escaping (Result<[Track], Error>) -> Void) {
         let resource = Resource<TrackListResponse>(get: "album/\(album.id)/tracks")
         apiClient.load(resource: resource) { result in

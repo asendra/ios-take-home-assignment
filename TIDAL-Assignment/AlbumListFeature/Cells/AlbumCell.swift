@@ -38,7 +38,6 @@ class AlbumCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
         label.textColor = .lightText
-        label.text = "Lorem ipsum et"
         return label
     }()
     

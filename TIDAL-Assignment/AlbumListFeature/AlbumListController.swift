@@ -16,24 +16,23 @@ class AlbumListController: UIViewController {
     
     var state = ViewControllerState.empty {
         didSet {
-            print("Updated state = \(state)")
             switch(state) {
             case .loading:
                 collectionView.isHidden = true
-                //messageView.isHidden = true
-            case .error(_):
+                messageView.isHidden = true
+            case .error(let message):
                 collectionView.isHidden = true
-                //messageView.isHidden = false
-                //messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
-                //messageView.messageLabel.text = message
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
+                messageView.messageLabel.text = message
             case .content:
                 collectionView.isHidden = false
-                //messageView.isHidden = true
+                messageView.isHidden = true
             case .empty:
                 collectionView.isHidden = true
-                //messageView.isHidden = false
-                //messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
-                //messageView.messageLabel.text = "Search for your favourite artists"
+                messageView.isHidden = false
+                messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
+                messageView.messageLabel.text = "No albums found for this artist"
             }
         }
     }
@@ -64,6 +63,15 @@ class AlbumListController: UIViewController {
         return collectionView
     }()
     
+    let messageView: TableMessageView = {
+        let view = TableMessageView(frame: .zero)
+        view.backgroundColor = .clear
+        view.layer.cornerCurve = .continuous
+        view.layer.cornerRadius = 12.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -90,6 +98,12 @@ class AlbumListController: UIViewController {
     private func setupUI() {
         title = viewModel.artistName()
         view.backgroundColor = .tidalDarkBackground
+        
+        view.addSubview(messageView)
+        NSLayoutConstraint.activate([
+            messageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            messageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
     
     private func setupCollectionView() {

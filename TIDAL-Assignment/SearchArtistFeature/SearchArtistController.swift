@@ -132,7 +132,6 @@ class SearchArtistController: UIViewController {
 }
 
 extension SearchArtistController: UITableViewDataSource, UITableViewDelegate {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

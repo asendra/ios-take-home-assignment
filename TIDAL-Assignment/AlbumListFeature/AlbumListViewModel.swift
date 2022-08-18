@@ -23,7 +23,6 @@ protocol AlbumListViewModelType {
     func isLoading(for indexPath: IndexPath) -> Bool
     // Events
     func start()
-    //func searchFor(text: String)
     func fetchMoreAlbums()
 }
 
@@ -36,6 +35,7 @@ class AlbumListViewModel {
     fileprivate let service: AlbumListService
     fileprivate let artist: Artist
     fileprivate var albums = [Album]()
+    fileprivate var albumInfo = [Int: AlbumInfoResponse]()
     fileprivate var totalCount = 0
     fileprivate var offset = 0
     fileprivate var isPreFetching = false
@@ -50,25 +50,59 @@ class AlbumListViewModel {
     // MARK: - Private
     
     private func calculateIndexPathsToReload(from newAlbums: [Album]) -> [IndexPath] {
-      let startIndex = albums.count - newAlbums.count
-      let endIndex = startIndex + newAlbums.count
-      return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+        let startIndex = albums.count
+        let endIndex = startIndex + newAlbums.count
+        return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    
+    private func processAlbumListResponse(_ response: AlbumListResponse) {
+        let updatedPaths = calculateIndexPathsToReload(from: response.data)
+        totalCount = response.total
+        offset += response.data.count
+        albums += response.data
+        viewDelegate?.updateAlbums(for: updatedPaths)
+        
+        // Async fetch album metadata
+        fetchAlbumInfo(for: updatedPaths)
     }
     
     // MARK: - Network
     
-    @objc func fetchAlbums() {
+    func fetchAlbums() {
         viewDelegate?.updateState(.loading)
         service.getAlbums(forArtist: artist, offset: nil) { [weak self] result in
             switch result {
             case .success(let response):
-                self?.totalCount = response.total
-                self?.offset = response.data.count
-                self?.albums = response.data
+                self?.processAlbumListResponse(response)
                 self?.viewDelegate?.updateState(.content)
-                self?.viewDelegate?.updateAlbums(for: nil)
             case .failure(let error):
                 self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
+            }
+        }
+    }
+    
+    func fetchAlbumInfo(for indexPaths: [IndexPath]) {
+        
+        let concurrentCalls = 4
+        let semaphore = DispatchSemaphore(value: concurrentCalls)
+        let backgroundQueue = DispatchQueue(label: "Background queue")
+        
+        for path in indexPaths {
+            let album = albumFor(row: path.row)
+            if albumInfo[album.id] == nil {
+                backgroundQueue.async { [weak self] in
+                    semaphore.wait()
+                    self?.service.getAlbumInfo(album) { [weak self] result in
+                        switch result {
+                        case .success(let response):
+                            self?.albumInfo[album.id] = response
+                            self?.viewDelegate?.updateAlbums(for: [path])
+                        case .failure(_):
+                            self?.albumInfo[album.id] = nil
+                        }
+                        semaphore.signal()
+                    }
+                }
             }
         }
     }
@@ -91,7 +125,13 @@ extension AlbumListViewModel: AlbumListViewModelType {
     }
     
     func albumDataFor(row: Int) -> AlbumCellDataType {
-        return AlbumCellData(album: albumFor(row: row))
+        let album = albumFor(row: row)
+        if let info = albumInfo[album.id] {
+            return AlbumCellData(album: album, contributors: info.contributors)
+        }
+        else {
+            return AlbumCellData(album: album, contributors: [artist])
+        }
     }
     
     func isLoading(for indexPath: IndexPath) -> Bool {
@@ -115,10 +155,7 @@ extension AlbumListViewModel: AlbumListViewModelType {
             self?.isPreFetching = false
             switch result {
             case .success(let response):
-                let updatedPaths = self?.calculateIndexPathsToReload(from: response.data)
-                self?.offset += response.data.count
-                self?.albums += response.data
-                self?.viewDelegate?.updateAlbums(for: updatedPaths)
+                self?.processAlbumListResponse(response)
             case .failure(let error):
                 self?.viewDelegate?.updateState(.error(message: error.localizedDescription))
             }
