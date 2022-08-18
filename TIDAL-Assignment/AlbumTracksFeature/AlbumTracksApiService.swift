@@ -1,5 +1,5 @@
 //
-//  AlbumInfoApiService.swift
+//  AlbumTracksApiService.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 17/8/22.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol AlbumInfoService {
+protocol AlbumTracksService {
     func getTracks(forAlbum album: Album, completion: @escaping (Result<[Track], Error>) -> Void)
 }
 
-final class AlbumInfoApiService {
+final class AlbumTracksApiService {
     
     let apiClient: ApiClient
 
@@ -23,7 +23,7 @@ final class AlbumInfoApiService {
 
 // MARK: - API
 
-extension AlbumInfoApiService: AlbumInfoService {
+extension AlbumTracksApiService: AlbumTracksService {
     func getTracks(forAlbum album: Album, completion: @escaping (Result<[Track], Error>) -> Void) {
         let resource = Resource<TrackListResponse>(get: "album/\(album.id)/tracks")
         apiClient.load(resource: resource) { result in

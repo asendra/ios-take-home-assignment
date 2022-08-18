@@ -29,6 +29,7 @@ class AlbumCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.adjustsFontForContentSizeCategory = true
         label.textColor = .white
+        label.numberOfLines = 0
         return label
     }()
     
