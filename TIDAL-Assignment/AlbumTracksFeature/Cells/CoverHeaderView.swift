@@ -30,14 +30,26 @@ class CoverHeaderView: UIView {
         fatalError()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        imageView.frame = CGRect(origin: CGPoint(x: layoutMargins.left,
+                                                 y: layoutMargins.top),
+                                 size: CGSize(width: bounds.size.width - layoutMargins.left - layoutMargins.right,
+                                              height: bounds.size.height - layoutMargins.top - layoutMargins.bottom))
+    }
+    
     private func setup() {
         addSubview(imageView)
+        
+        /*
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            //imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
         ])
+        */
     }
 }

@@ -79,7 +79,8 @@ class AlbumTracksController: UITableViewController {
         tableView.tableHeaderView = header
         tableView.tableHeaderView?.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            header.widthAnchor.constraint(equalTo: tableView.widthAnchor)
+            header.widthAnchor.constraint(equalTo: tableView.widthAnchor),
+            header.heightAnchor.constraint(equalTo: tableView.widthAnchor)
         ])
         header.setNeedsLayout()
         header.layoutIfNeeded()
