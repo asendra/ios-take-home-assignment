@@ -19,7 +19,7 @@ protocol AlbumListViewModelType {
     func artistName() -> String
     func numberOfAlbums() -> Int
     func albumFor(row: Int) -> Album
-    //func albumDataFor(row: Int) -> ArtistCellDataType
+    func albumDataFor(row: Int) -> AlbumCellDataType
     func isLoading(for indexPath: IndexPath) -> Bool
     // Events
     func start()
@@ -90,11 +90,9 @@ extension AlbumListViewModel: AlbumListViewModelType {
         return albums[row]
     }
     
-    /*
-    func artistDataFor(row: Int) -> ArtistCellDataType {
-        return ArtistCellData(artist: artistFor(row: row))
+    func albumDataFor(row: Int) -> AlbumCellDataType {
+        return AlbumCellData(album: albumFor(row: row))
     }
-    */
     
     func isLoading(for indexPath: IndexPath) -> Bool {
         return indexPath.row >= albums.count

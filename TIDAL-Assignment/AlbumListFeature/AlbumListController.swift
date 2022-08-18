@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AlbumListController: UITableViewController {
+class AlbumListController: UIViewController {
     
     weak var coordinator: AlbumListCoordinator?
     
@@ -19,18 +19,18 @@ class AlbumListController: UITableViewController {
             print("Updated state = \(state)")
             switch(state) {
             case .loading:
-                tableView.isHidden = true
+                collectionView.isHidden = true
                 //messageView.isHidden = true
             case .error(_):
-                tableView.isHidden = true
+                collectionView.isHidden = true
                 //messageView.isHidden = false
                 //messageView.imageView.image = UIImage(systemName: "exclamationmark.icloud")
                 //messageView.messageLabel.text = message
             case .content:
-                tableView.isHidden = false
+                collectionView.isHidden = false
                 //messageView.isHidden = true
             case .empty:
-                tableView.isHidden = true
+                collectionView.isHidden = true
                 //messageView.isHidden = false
                 //messageView.imageView.image = UIImage(systemName: "magnifyingglass.circle")
                 //messageView.messageLabel.text = "Search for your favourite artists"
@@ -38,11 +38,37 @@ class AlbumListController: UITableViewController {
         }
     }
     
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionHeadersPinToVisibleBounds = true
+        layout.scrollDirection = .vertical
+        
+        let itemHeight: CGFloat = 240.0
+        let minCellWidth: CGFloat = 150.0
+        let minItemSpacing: CGFloat = 10
+        let containerWidth: CGFloat = UIScreen.main.bounds.size.width
+        let maxCellCountPerRow: CGFloat =  floor((containerWidth - minItemSpacing) / (minCellWidth+minItemSpacing))
+        
+        let itemWidth: CGFloat = floor(((containerWidth - (2 * minItemSpacing) - (maxCellCountPerRow-1) * minItemSpacing) / maxCellCountPerRow))
+        let inset = max(minItemSpacing, floor((containerWidth - (maxCellCountPerRow*itemWidth) - (maxCellCountPerRow-1)*minItemSpacing) / 2))
+        
+        layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
+        layout.minimumInteritemSpacing = min(minItemSpacing,inset)
+        layout.minimumLineSpacing = minItemSpacing
+        layout.sectionInset = UIEdgeInsets(top: minItemSpacing, left: inset, bottom: minItemSpacing, right: inset)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: AlbumCell.reuseIdentifier)
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
-        setUpTableView()
+        setupUI()
+        setupCollectionView()
         setupViewModel()
         
         viewModel.start()
@@ -52,7 +78,7 @@ class AlbumListController: UITableViewController {
     
     init(viewModel: AlbumListViewModelType) {
         self.viewModel = viewModel
-        super.init(style: .plain)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -61,40 +87,52 @@ class AlbumListController: UITableViewController {
     
     // MARK: - Private
     
-    private func setUpUI() {
+    private func setupUI() {
         title = viewModel.artistName()
         view.backgroundColor = .tidalDarkBackground
     }
     
-    private func setUpTableView() {
-        tableView.prefetchDataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    private func setupCollectionView() {
+        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
     }
     
     private func setupViewModel() {
         viewModel.viewDelegate = self
     }
-    
+}
+
+extension AlbumListController: UICollectionViewDelegate, UICollectionViewDataSource {
     // MARK: - UITableViewDataSource
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfAlbums()
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = .clear
-        cell.textLabel?.textColor = .white
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.reuseIdentifier, for: indexPath) as? AlbumCell else {
+            return UICollectionViewCell()
+        }
         
         if viewModel.isLoading(for: indexPath) {
             // TODO: Decide how to handle..
         } else {
-            let album = viewModel.albumFor(row: indexPath.row)
-            cell.textLabel?.text = album.title
+            let albumData = viewModel.albumDataFor(row: indexPath.row)
+            albumData.setup(cell, in: collectionView, at: indexPath)
         }
         
         return cell
@@ -102,15 +140,15 @@ class AlbumListController: UITableViewController {
     
     // MARK: - UITableViewDelegate
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
         let album = viewModel.albumFor(row: indexPath.row)
         coordinator?.showAlbum(album)
     }
 }
 
-extension AlbumListController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+extension AlbumListController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         if indexPaths.contains(where: viewModel.isLoading(for:)) {
             viewModel.fetchMoreAlbums()
         }
@@ -121,10 +159,10 @@ extension AlbumListController: AlbumListViewModelViewDelegate {
     func updateAlbums(for indexPaths: [IndexPath]?) {
         DispatchQueue.main.async { [weak self] in
             if let paths = indexPaths {
-                self?.tableView.reloadRows(at: paths, with: .automatic)
+                self?.collectionView.reloadItems(at: paths)
             }
             else {
-                self?.tableView.reloadData()
+                self?.collectionView.reloadData()
             }
         }
     }

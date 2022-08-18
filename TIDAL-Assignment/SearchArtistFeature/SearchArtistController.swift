@@ -22,7 +22,6 @@ class SearchArtistController: UIViewController {
     
     var state = ViewControllerState.empty {
         didSet {
-            print("Updated state = \(state)")
             switch(state) {
             case .loading:
                 tableView.isHidden = true
