@@ -1,5 +1,5 @@
 //
-//  AlbumController.swift
+//  AlbumTracksController.swift
 //  TIDAL-Assignment
 //
 //  Created by Alberto Sendra Estrella on 16/8/22.
@@ -8,13 +8,13 @@
 import Foundation
 import UIKit
 
-class AlbumInfoController: UITableViewController {
+class AlbumTracksController: UITableViewController {
     
-    weak var coordinator: AlbumInfoCoordinator?
+    weak var coordinator: AlbumTracksCoordinator?
     
     let album: Album
     
-    let infoService: AlbumInfoApiService
+    let infoService: AlbumTracksApiService
     
     var info: AlbumInfoResponse?
     var tracks = [Track]() {
@@ -51,7 +51,7 @@ class AlbumInfoController: UITableViewController {
     
     // MARK: - Init
     
-    init(album: Album, service: AlbumInfoApiService) {
+    init(album: Album, service: AlbumTracksApiService) {
         self.infoService = service
         self.album = album
         super.init(style: .plain)
@@ -69,7 +69,8 @@ class AlbumInfoController: UITableViewController {
     }
     
     private func setUpTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(AlbumVolumeHeaderView.self, forHeaderFooterViewReuseIdentifier: AlbumVolumeHeaderView.reuseIdentifier)
+        tableView.register(TrackCell.self, forCellReuseIdentifier: TrackCell.reuseIdentifier)
             
         setAndLayoutTableHeaderView(header: headerView)
     }
@@ -92,18 +93,24 @@ class AlbumInfoController: UITableViewController {
         return 1
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableView.dequeueReusableHeaderFooterView(withIdentifier: AlbumVolumeHeaderView.reuseIdentifier)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TrackCell.reuseIdentifier, for: indexPath) as! TrackCell
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         
         let track = tracks[indexPath.row]
-        cell.textLabel?.text = track.title
-        cell.detailTextLabel?.text = String(track.duration)
+        cell.positionLabel.text = "\(track.trackPosition)."
+        cell.titleLabel.text = track.title
+        cell.artistLabel.text = "Lorem ipsum"
+        cell.durationLabel.text = String(track.duration)
         
         return cell
     }
@@ -115,7 +122,7 @@ class AlbumInfoController: UITableViewController {
     }
 }
 
-extension AlbumInfoController: Coordinated {
+extension AlbumTracksController: Coordinated {
     var coordinating: BaseCoordinator? {
         return coordinator
     }

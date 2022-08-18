@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class AlbumInfoCoordinator: BaseCoordinator {
+class AlbumTracksCoordinator: BaseCoordinator {
     
     var parentCoordinator: BaseCoordinator?
     var childCoordinators = [BaseCoordinator]()
@@ -25,7 +25,7 @@ class AlbumInfoCoordinator: BaseCoordinator {
     }
 
     func start() {
-        let controller = AlbumInfoController(album: album, service: AlbumInfoApiService(client: apiClient))
+        let controller = AlbumTracksController(album: album, service: AlbumTracksApiService(client: apiClient))
         controller.coordinator = self
         navigationController.pushViewController(controller, animated: true)
     }
