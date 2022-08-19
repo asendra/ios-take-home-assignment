@@ -12,7 +12,6 @@
 		4E966C3B28AB67C9006BC9A1 /* SearchArtistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C3A28AB67C9006BC9A1 /* SearchArtistController.swift */; };
 		4E966C4028AB67CB006BC9A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E966C3F28AB67CB006BC9A1 /* Assets.xcassets */; };
 		4E966C4328AB67CB006BC9A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E966C4128AB67CB006BC9A1 /* LaunchScreen.storyboard */; };
-		4E966C4E28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C4D28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift */; };
 		4E966C5828AB67CB006BC9A1 /* TIDAL_AssignmentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C5728AB67CB006BC9A1 /* TIDAL_AssignmentUITests.swift */; };
 		4E966C5A28AB67CB006BC9A1 /* TIDAL_AssignmentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C5928AB67CB006BC9A1 /* TIDAL_AssignmentUITestsLaunchTests.swift */; };
 		4E966C6C28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E966C6B28AB6AAB006BC9A1 /* SearchArtistCoordinator.swift */; };
@@ -51,6 +50,14 @@
 		4EBF496228AEE39C000D01B0 /* AlbumTracksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */; };
 		4EBF496428AEE5B8000D01B0 /* TracksCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */; };
 		4EBF496728AEF211000D01B0 /* ViewControllerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496628AEF211000D01B0 /* ViewControllerState.swift */; };
+		4EBF497428AFAF96000D01B0 /* AlbumTracksViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF496828AFAC92000D01B0 /* AlbumTracksViewModelTests.swift */; };
+		4EBF497828AFB496000D01B0 /* MockAlbumTracksApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF497728AFB495000D01B0 /* MockAlbumTracksApiService.swift */; };
+		4EBF497A28AFB4E9000D01B0 /* AlbumTracksApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF497928AFB4E9000D01B0 /* AlbumTracksApiServiceTests.swift */; };
+		4EBF497C28AFB529000D01B0 /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF497B28AFB529000D01B0 /* MockApiClient.swift */; };
+		4EBF497E28AFB8FA000D01B0 /* tracks-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 4EBF497D28AFB8FA000D01B0 /* tracks-sample.json */; };
+		4EBF498028AFBDD3000D01B0 /* ApiClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF497F28AFBDD3000D01B0 /* ApiClientTests.swift */; };
+		4EBF498228AFBEE3000D01B0 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF498128AFBEE3000D01B0 /* MockURLSession.swift */; };
+		4EBF498428AFBFD5000D01B0 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF498328AFBFD5000D01B0 /* URLSessionProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,7 +86,6 @@
 		4E966C4228AB67CB006BC9A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4E966C4428AB67CB006BC9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E966C4928AB67CB006BC9A1 /* TIDAL-AssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TIDAL-AssignmentTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E966C4D28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TIDAL_AssignmentTests.swift; sourceTree = "<group>"; };
 		4E966C5328AB67CB006BC9A1 /* TIDAL-AssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TIDAL-AssignmentUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E966C5728AB67CB006BC9A1 /* TIDAL_AssignmentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TIDAL_AssignmentUITests.swift; sourceTree = "<group>"; };
 		4E966C5928AB67CB006BC9A1 /* TIDAL_AssignmentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TIDAL_AssignmentUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -119,6 +125,14 @@
 		4EBF496128AEE39C000D01B0 /* AlbumTracksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTracksViewModel.swift; sourceTree = "<group>"; };
 		4EBF496328AEE5B8000D01B0 /* TracksCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksCellData.swift; sourceTree = "<group>"; };
 		4EBF496628AEF211000D01B0 /* ViewControllerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerState.swift; sourceTree = "<group>"; };
+		4EBF496828AFAC92000D01B0 /* AlbumTracksViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTracksViewModelTests.swift; sourceTree = "<group>"; };
+		4EBF497728AFB495000D01B0 /* MockAlbumTracksApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlbumTracksApiService.swift; sourceTree = "<group>"; };
+		4EBF497928AFB4E9000D01B0 /* AlbumTracksApiServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTracksApiServiceTests.swift; sourceTree = "<group>"; };
+		4EBF497B28AFB529000D01B0 /* MockApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockApiClient.swift; sourceTree = "<group>"; };
+		4EBF497D28AFB8FA000D01B0 /* tracks-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "tracks-sample.json"; sourceTree = "<group>"; };
+		4EBF497F28AFBDD3000D01B0 /* ApiClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClientTests.swift; sourceTree = "<group>"; };
+		4EBF498128AFBEE3000D01B0 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		4EBF498328AFBFD5000D01B0 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,7 +201,10 @@
 		4E966C4C28AB67CB006BC9A1 /* TIDAL-AssignmentTests */ = {
 			isa = PBXGroup;
 			children = (
-				4E966C4D28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift */,
+				4EBF497528AFB470000D01B0 /* Mocks */,
+				4EBF496828AFAC92000D01B0 /* AlbumTracksViewModelTests.swift */,
+				4EBF497928AFB4E9000D01B0 /* AlbumTracksApiServiceTests.swift */,
+				4EBF497F28AFBDD3000D01B0 /* ApiClientTests.swift */,
 			);
 			path = "TIDAL-AssignmentTests";
 			sourceTree = "<group>";
@@ -287,6 +304,7 @@
 				4EBF494A28AD826E000D01B0 /* ImageClient.swift */,
 				4EBF494C28AD8F42000D01B0 /* ImageCache.swift */,
 				4EBF494828AD8160000D01B0 /* CachedImageService.swift */,
+				4EBF498328AFBFD5000D01B0 /* URLSessionProtocol.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -334,6 +352,25 @@
 				4EBF496628AEF211000D01B0 /* ViewControllerState.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		4EBF497528AFB470000D01B0 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF497628AFB47E000D01B0 /* Services */,
+				4EBF497B28AFB529000D01B0 /* MockApiClient.swift */,
+				4EBF498128AFBEE3000D01B0 /* MockURLSession.swift */,
+				4EBF497D28AFB8FA000D01B0 /* tracks-sample.json */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		4EBF497628AFB47E000D01B0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF497728AFB495000D01B0 /* MockAlbumTracksApiService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -450,6 +487,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EBF497E28AFB8FA000D01B0 /* tracks-sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +526,7 @@
 				4E966C7428AB6F52006BC9A1 /* AlbumListCoordinator.swift in Sources */,
 				4E966C3728AB67C9006BC9A1 /* AppDelegate.swift in Sources */,
 				4EBF493E28AD3B38000D01B0 /* Track.swift in Sources */,
+				4EBF498428AFBFD5000D01B0 /* URLSessionProtocol.swift in Sources */,
 				4EBF492F28AD0865000D01B0 /* Artist.swift in Sources */,
 				4E966C7828AB7572006BC9A1 /* AlbumTracksCoordinator.swift in Sources */,
 				4EBF494228AD4B23000D01B0 /* SearchArtistViewModel.swift in Sources */,
@@ -512,7 +551,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E966C4E28AB67CB006BC9A1 /* TIDAL_AssignmentTests.swift in Sources */,
+				4EBF498228AFBEE3000D01B0 /* MockURLSession.swift in Sources */,
+				4EBF498028AFBDD3000D01B0 /* ApiClientTests.swift in Sources */,
+				4EBF497828AFB496000D01B0 /* MockAlbumTracksApiService.swift in Sources */,
+				4EBF497C28AFB529000D01B0 /* MockApiClient.swift in Sources */,
+				4EBF497428AFAF96000D01B0 /* AlbumTracksViewModelTests.swift in Sources */,
+				4EBF497A28AFB4E9000D01B0 /* AlbumTracksApiServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

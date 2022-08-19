@@ -13,10 +13,10 @@ protocol AlbumTracksService {
 
 final class AlbumTracksApiService {
     
-    let apiClient: ApiClient
+    let apiClient: Client
 
     // MARK: - Init
-    init(client: ApiClient) {
+    init(client: Client) {
         apiClient = client
     }
 }

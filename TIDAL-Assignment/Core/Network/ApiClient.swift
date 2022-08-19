@@ -7,12 +7,19 @@
 
 import Foundation
 
-final class ApiClient {
+protocol Client {
+    var session: URLSessionProtocol { get }
+    var baseURL: String { get }
     
-    let session: URLSession
-    let baseURL = "https://api.deezer.com/"
+    func load<A>(resource: Resource<A>, completion: @escaping  (A?) -> ())
+}
+
+final class ApiClient: Client {
     
-    init(session: URLSession = URLSession.shared) {
+    var session: URLSessionProtocol
+    var baseURL = "https://api.deezer.com/"
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
