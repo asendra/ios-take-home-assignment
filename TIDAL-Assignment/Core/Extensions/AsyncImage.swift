@@ -13,8 +13,13 @@ extension UIImageView {
         CachedImageService.shared.loadImage(url: url) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let image):
-                    self?.image = image
+                case .success(let keyImageTuple):
+                    if keyImageTuple.0 == url {
+                        self?.image = keyImageTuple.1
+                    }
+                    else {
+                        print("URL: \(keyImageTuple.0) != \(url)")
+                    }
                 case .failure(_):
                     self?.image = placeHolder
                 }

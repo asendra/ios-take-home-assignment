@@ -24,21 +24,30 @@ final class CachedImageService {
     
     // MARK: - Public
     
-    func loadImage(url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    func loadImage(url: URL, completion: @escaping (Result<(URL, UIImage), Error>) -> Void) {
         
         if let image = imageCache[url] {
-            completion(.success(image))
+            completion(.success((url, image)))
             return
         }
         
+        let concurrentCalls = 4
+        let semaphore = DispatchSemaphore(value: concurrentCalls)
+        let backgroundQueue = DispatchQueue(label: "Background queue")
         let resource = Resource<UIImage>(get: url.absoluteString)
-        imageClient.load(resource: resource) { image in
-            if let image = image {
-                self.imageCache[url] = image
-                completion(.success(image))
-            }
-            else {
-                completion(.failure(APIError.invalidImage))
+        
+        backgroundQueue.async { [weak self] in
+            semaphore.wait()
+            self?.imageClient.load(resource: resource) { image in
+                if let image = image {
+                    self?.imageCache[url] = image
+                    completion(.success((url, image)))
+                }
+                else {
+                    self?.imageCache[url] = nil
+                    completion(.failure(APIError.invalidImage))
+                }
+                semaphore.signal()
             }
         }
     }
